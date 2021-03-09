@@ -10,11 +10,13 @@
 {#<div><a href={% url 'login' %}>Zaloguj</a></div>#}
 {#<div><a href={% url 'register' %}>Rejestracja</a></div>#}
 
-<span class="'navigation">
+<span class="navigation">
     {% if user.is_authenticated %}
-        <div>Witaj {{ user.username }}</div>
+        <div>Witaj {{ user.first_name }}</div>
+        <div><a href="{% url 'logout' %}">Wyloguj</a></div>
     {% else %}
         <div>Niezalogowany</div>
+        <div><a href="{% url 'login' %}">Zaloguj</a></div>
     {% endif %}
 
 </span>

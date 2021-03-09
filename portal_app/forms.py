@@ -10,3 +10,6 @@ class RegistrationForm(forms.Form):
     password2 = forms.CharField(label='Hasło', widget=forms.PasswordInput)
     email = forms.EmailField(label='e-mail')
 
+class LoginForm(forms.Form):
+    username = forms.CharField(label='Nazwa użytkownika', max_length=64)
+    password = forms.CharField(label='Hasło', widget=forms.PasswordInput)

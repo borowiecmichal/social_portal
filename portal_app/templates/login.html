@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Rejestracja{% endblock %}
+{% block content %}
+    <div class="error">{{ error }}</div>
+    <form id="loginForm" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" VALUE="Zaloguj">
+    </form>
+{% endblock %}

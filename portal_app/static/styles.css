@@ -1,13 +1,14 @@
 .content {
     margin: auto;
+    margin-top: 20px;
     width: 60%;
-    border: 3px solid #73AD21;
+    border: 3px solid darkred;
     padding: 10px;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.12),
-              0 2px 2px rgba(0,0,0,0.12),
-              0 4px 4px rgba(0,0,0,0.12),
-              0 8px 8px rgba(0,0,0,0.12),
-              0 16px 16px rgba(0,0,0,0.12);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12),
+    0 2px 2px rgba(0, 0, 0, 0.12),
+    0 4px 4px rgba(0, 0, 0, 0.12),
+    0 8px 8px rgba(0, 0, 0, 0.12),
+    0 16px 16px rgba(0, 0, 0, 0.12);
 }
 
 body::after {
@@ -25,7 +26,38 @@ body::after {
 }
 
 
+
+
 #registrationForm input {
     margin: 10px;
-  width:90%;
+    width: 90%;
+}
+
+.navigation{
+    display: flex;
+    justify-content: flex-end;
+    background: rgba(0,0,0,0.8);
+}
+.navigation div{
+    padding-left: 60px;
+    border: 2px darkred solid;
+    color: white;
+}
+.navigation a{
+    color: inherit;
+    text-decoration: none;
+}
+
+.landingButtons{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.landingButtons button{
+    background: indianred;
+    width: 80%;
+    height: 40%;
+    font-size: 40px;
 }

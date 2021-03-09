@@ -16,11 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from portal_app.views import LandingView, RegistrationView, LoginView
+from portal_app.views import LandingView, RegistrationView, LoginView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', LandingView.as_view(), name = 'landing'),
-    path('login/', LoginView.as_view(), name='login'), #change VIEW!!!!!!!!!!!!!
-    path('register/', RegistrationView.as_view(), name='register'), #change VIEW!!!!!!!!!!!!!
+    path('', LandingView.as_view(), name='landing'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('register/', RegistrationView.as_view(), name='register'),
+    path('logout/', LogoutView.as_view(), name='logout'),  # change VIEW!!!!!!!!!!!!!
 ]
