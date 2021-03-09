@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'portal_app',
 ]
 
 MIDDLEWARE = [
@@ -54,8 +55,7 @@ ROOT_URLCONF = 'social_portal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'portal_app/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,8 +76,11 @@ WSGI_APPLICATION = 'social_portal.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'HOST': '127.0.0.1',
+        'NAME': 'social_portal',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'postgres',         # pamiętaj o poprawnym skonfigurowaniu
+        'PASSWORD': 'coderslab',    # bazy danych!
     }
 }
 
@@ -91,6 +94,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 9,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
