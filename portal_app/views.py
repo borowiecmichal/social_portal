@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -65,3 +66,8 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect(reverse('landing'))
+
+
+class UserProfileView(LoginRequiredMixin, View):
+    def get(self, request, username):
+        return render(request, 'userprofileview.html')

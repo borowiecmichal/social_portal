@@ -1,15 +1,3 @@
-.content {
-    margin: auto;
-    margin-top: 20px;
-    width: 60%;
-    border: 3px solid darkred;
-    padding: 10px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12),
-    0 2px 2px rgba(0, 0, 0, 0.12),
-    0 4px 4px rgba(0, 0, 0, 0.12),
-    0 8px 8px rgba(0, 0, 0, 0.12),
-    0 16px 16px rgba(0, 0, 0, 0.12);
-}
 
 body::after {
     content: "";
@@ -25,18 +13,57 @@ body::after {
     z-index: -1;
 }
 
+.content {
+    background: #e2e2e2;
+    margin: auto;
+    margin-top: 20px;
+    width: 60%;
+    border: 3px solid darkred;
+    padding: 10px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12),
+    0 2px 2px rgba(0, 0, 0, 0.12),
+    0 4px 4px rgba(0, 0, 0, 0.12),
+    0 8px 8px rgba(0, 0, 0, 0.12),
+    0 16px 16px rgba(0, 0, 0, 0.12);
+}
 
-
+#registrationForm label {
+    margin: 10px;
+    width: 90%;
+}
 
 #registrationForm input {
     margin: 10px;
     width: 90%;
 }
 
+#loginForm p{
+    display: flex;
+    justify-content: space-between;
+}
+
+#loginForm label {
+    margin: 10px;
+    width: 30%;
+}
+
+#loginForm input {
+    margin: 10px;
+    width: 60%;
+}
+
+#login-btn{
+    width: 70px;
+    background: indianred;
+    border: #db5050 5px solid;
+    border-radius: 2px;
+}
+
 .navigation{
     display: flex;
     justify-content: flex-end;
-    background: rgba(0,0,0,0.8);
+    align-items: self-end;
+    background: rgb(43, 43, 43);
 }
 .navigation div{
     padding-left: 60px;
@@ -56,8 +83,16 @@ body::after {
 }
 
 .landingButtons button{
-    background: indianred;
+    background: #db5050;
     width: 80%;
     height: 40%;
     font-size: 40px;
+}
+
+.userBoard{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: #727070 solid 1px;
+    border-radius: 5px;
 }

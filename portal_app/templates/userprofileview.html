@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.first_name }} {{ user.last_name }}{% endblock %}
+{% block content %}
+    <div class="userBoard">
+        <p>{{ user.first_name }} {{ user.last_name }}</p>
+        <p>{{ user.username }}</p>
+    </div>
+    <div class="profileActions">
+        <span><button onclick="location.href='/login'">Dodaj zdjęcie</button></span>
+        <span><button onclick="location.href='/login'">Dodaj post</button></span>
+    </div>
+{% endblock %}

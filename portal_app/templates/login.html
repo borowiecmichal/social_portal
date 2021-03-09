@@ -5,6 +5,6 @@
     <form id="loginForm" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" VALUE="Zaloguj">
+        <input id="login-btn" type="submit" VALUE="Zaloguj">
     </form>
 {% endblock %}
