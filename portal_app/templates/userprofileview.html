@@ -1,4 +1,6 @@
+
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}{{ user.first_name }} {{ user.last_name }}{% endblock %}
 {% block content %}
     <div class="userBoard">
@@ -11,7 +13,7 @@
     </div>
 
     <div class="profileContent">
-        <button id='hidePosts' class="hide-btn">Ukryj posty</button>
+        <button id='hidePostsBtn' class="hide-btn">Ukryj posty</button>
         {% for item in content_post %}
             <div class="singlePost">
                 <div class="postContent"> {{ item.content }}</div>
@@ -19,7 +21,7 @@
             </div>
         {% endfor %}
 
-        <button class="hide-btn">Ukryj zdjęcia</button>
+        <button id='hidePhotosBtn' class="hide-btn">Ukryj zdjęcia</button>
         {% for item in content_photo %}
             <div id='hidePhotos' class="singlePhoto">
                 <div class="photoContent"><img src="{{ item.photo.url }}"></div>
@@ -29,4 +31,5 @@
         {% endfor %}
 
     </div>
+     <script src={% static 'profileView.js' %}></script>
 {% endblock %}
