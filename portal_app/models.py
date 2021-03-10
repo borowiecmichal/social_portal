@@ -6,7 +6,7 @@ class Post(models.Model):
     content = models.TextField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_add = models.DateTimeField(auto_now_add=True)
-    likes = models.IntegerField()
+    likes = models.IntegerField(default=0)
     group = models.ForeignKey('Group', on_delete=models.SET_DEFAULT, null=True, default=None)
 
 

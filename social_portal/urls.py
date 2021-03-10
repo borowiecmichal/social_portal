@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from portal_app.views import LandingView, RegistrationView, LoginView, LogoutView, UserProfileView, PhotoCreateView
+from portal_app.views import LandingView, RegistrationView, LoginView, LogoutView, UserProfileView, PhotoCreateView, \
+    PostCreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('profile/<str:username>', UserProfileView.as_view(), name='user-profile'),
     path('add_photo/', PhotoCreateView.as_view(), name='add-photo'),
+    path('add_post/', PostCreateView.as_view(), name='add-post')
 ]

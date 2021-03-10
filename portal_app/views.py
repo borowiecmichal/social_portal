@@ -11,7 +11,7 @@ from django.views import View
 from django.views.generic import FormView, CreateView
 
 from portal_app.forms import RegistrationForm, LoginForm, ImageForm
-from portal_app.models import Photo
+from portal_app.models import Photo, Post
 
 
 class LandingView(View):
@@ -101,14 +101,13 @@ class PhotoCreateView(LoginRequiredMixin, View):
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
-    model = Photo
-    fields = ['photo', 'description']
-    template_name = 'photo_create_form.html'
+    model = Post
+    fields = ['content']
+    template_name = 'post_create_form.html'
 
     def form_valid(self, form):
-        user = self.request.user
-        form.instance.user = user
-        return super(PhotoCreateView,self).form_valid(form)
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('user-profile', self.request.user.username)
+        return reverse('user-profile', kwargs={'username':self.request.user.username})
