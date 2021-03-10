@@ -37,7 +37,7 @@ body::after {
     width: 90%;
 }
 
-#loginForm p{
+#loginForm p {
     display: flex;
     justify-content: space-between;
 }
@@ -52,47 +52,85 @@ body::after {
     width: 60%;
 }
 
-#login-btn{
+#login-btn {
     width: 70px;
     background: indianred;
     border: #db5050 5px solid;
     border-radius: 2px;
 }
 
-.navigation{
+.navigation {
     display: flex;
     justify-content: flex-end;
     align-items: self-end;
     background: rgb(43, 43, 43);
 }
-.navigation div{
+
+.navigation div {
     padding-left: 60px;
     border: 2px darkred solid;
     color: white;
 }
-.navigation a{
+
+.navigation a {
     color: inherit;
     text-decoration: none;
 }
 
-.landingButtons{
+.landingButtons {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
 }
 
-.landingButtons button{
+.landingButtons button {
     background: #db5050;
     width: 80%;
     height: 40%;
     font-size: 40px;
 }
 
-.userBoard{
+.userBoard {
     display: flex;
     justify-content: space-between;
     padding: 10px;
     border: #727070 solid 1px;
     border-radius: 5px;
+}
+
+.addContentForm p {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.singlePost {
+    display: flex;
+    justify-content: space-between;
+}
+
+.singlePost .postContent {
+    margin: 20px;
+    width: 60%;
+    overflow: scroll;
+}
+.profileContent{
+    display: flex;
+    flex-direction: column;
+}
+.hide-btn{
+    margin-top: 40px;
+    background: indianred;
+    border: #db5050 5px solid;
+    border-radius: 2px;
+}
+
+.photoContent img{
+    width: 50%;
+    height: auto;
+}
+
+.hide{
+    display: none;
 }

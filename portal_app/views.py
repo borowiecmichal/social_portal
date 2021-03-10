@@ -71,7 +71,13 @@ class LogoutView(View):
 
 class UserProfileView(LoginRequiredMixin, View):
     def get(self, request, username):
-        return render(request, 'userprofileview.html')
+        content_post = Post.objects.filter(user=self.request.user).order_by('-date_add')
+        content_photo = Photo.objects.filter(user=self.request.user).order_by('-date_add')
+        context = {
+            'content_post':content_post,
+            'content_photo': content_photo,
+        }
+        return render(request, 'userprofileview.html',context)
 
 
 # class PhotoCreateView(LoginRequiredMixin, CreateView):

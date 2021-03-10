@@ -9,4 +9,24 @@
         <span><button onclick="location.href='/add_photo'">Dodaj zdjęcie</button></span>
         <span><button onclick="location.href='/add_post'">Dodaj post</button></span>
     </div>
+
+    <div class="profileContent">
+        <button id='hidePosts' class="hide-btn">Ukryj posty</button>
+        {% for item in content_post %}
+            <div class="singlePost">
+                <div class="postContent"> {{ item.content }}</div>
+                <div class="datePost">{{ item.date_add|date:'d.m.Y H:i' }}</div>
+            </div>
+        {% endfor %}
+
+        <button class="hide-btn">Ukryj zdjęcia</button>
+        {% for item in content_photo %}
+            <div id='hidePhotos' class="singlePhoto">
+                <div class="photoContent"><img src="{{ item.photo.url }}"></div>
+                <div class="datePost">{{ item.date_add}}</div><br>
+                <div class="photoDescription">{{ item.description }}</div>
+            </div>
+        {% endfor %}
+
+    </div>
 {% endblock %}

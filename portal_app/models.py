@@ -3,7 +3,7 @@ from django.conf import settings
 
 
 class Post(models.Model):
-    content = models.TextField()
+    content = models.TextField(verbose_name='Treść')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_add = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
@@ -11,8 +11,9 @@ class Post(models.Model):
 
 
 class Photo(models.Model):
-    photo = models.ImageField(blank=True)
-    description = models.CharField(max_length=255, null=True, default=None)
+    photo = models.ImageField(blank=True, verbose_name='Zdjęcie')
+    description = models.CharField(max_length=255, null=True, default=None, verbose_name='Opis')
+    date_add = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
