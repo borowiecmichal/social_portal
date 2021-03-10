@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Dodaj zdjęcie{% endblock %}
+{% block content %}
+    <div class="error">{{ error }}</div>
+    <form id="addPhotoForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input id="login-btn" type="submit" VALUE="Dodaj">
+    </form>
+{% endblock %}

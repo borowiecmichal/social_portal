@@ -8,9 +8,10 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
-from django.views.generic import FormView
+from django.views.generic import FormView, CreateView
 
-from portal_app.forms import RegistrationForm, LoginForm
+from portal_app.forms import RegistrationForm, LoginForm, ImageForm
+from portal_app.models import Photo
 
 
 class LandingView(View):
@@ -71,3 +72,43 @@ class LogoutView(View):
 class UserProfileView(LoginRequiredMixin, View):
     def get(self, request, username):
         return render(request, 'userprofileview.html')
+
+
+# class PhotoCreateView(LoginRequiredMixin, CreateView):
+#     model = Photo
+#     fields = ['photo', 'description']
+#     template_name = 'photo_create_form.html'
+#
+#     def form_valid(self, form):
+#         user = self.request.user
+#         form.instance.user = user
+#         return super(PhotoCreateView,self).form_valid(form)
+#
+#     def get_success_url(self):
+#         return reverse('user-profile', self.request.user.username)
+
+class PhotoCreateView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = ImageForm()
+        return render(request, 'photo_create_form.html', {'form': form})
+
+    def post(self, request):
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            newPhoto = Photo.objects.create(photo=request.FILES['photo'], user=request.user,
+                                            description=form.cleaned_data['description'])
+            return redirect(reverse('user-profile', kwargs={'username': request.user.username}))
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Photo
+    fields = ['photo', 'description']
+    template_name = 'photo_create_form.html'
+
+    def form_valid(self, form):
+        user = self.request.user
+        form.instance.user = user
+        return super(PhotoCreateView,self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('user-profile', self.request.user.username)

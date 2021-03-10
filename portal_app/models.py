@@ -11,7 +11,8 @@ class Post(models.Model):
 
 
 class Photo(models.Model):
-    photo = models.ImageField()
+    photo = models.ImageField(blank=True)
+    description = models.CharField(max_length=255, null=True, default=None)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 

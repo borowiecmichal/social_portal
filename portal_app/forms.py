@@ -1,5 +1,7 @@
-# from django.forms import forms, ModelForm
+from django.forms import ModelForm
 from django import forms
+
+from portal_app.models import Photo
 
 
 class RegistrationForm(forms.Form):
@@ -13,3 +15,9 @@ class RegistrationForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(label='Nazwa użytkownika', max_length=64)
     password = forms.CharField(label='Hasło', widget=forms.PasswordInput)
+
+
+class ImageForm(ModelForm):
+    class Meta:
+        model = Photo
+        exclude = ['user']
