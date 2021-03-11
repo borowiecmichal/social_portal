@@ -2,6 +2,13 @@ from django.db import models
 from django.conf import settings
 
 
+class AdditionalInfo(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    motorcycle = models.CharField(max_length=64, default=None, null=True)
+    date_of_birth = models.DateField(default=None, null=True)
+    city = models.CharField(max_length=64, default=None, null=True)
+
+
 class Post(models.Model):
     content = models.TextField(verbose_name='Treść')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -41,5 +48,3 @@ class Messages(models.Model):
     from_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='from_msg')
     to_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='to_msg')
     date = models.DateTimeField(auto_now_add=True)
-
-

@@ -11,7 +11,7 @@ from django.views import View
 from django.views.generic import FormView, CreateView
 
 from portal_app.forms import RegistrationForm, LoginForm, ImageForm
-from portal_app.models import Photo, Post
+from portal_app.models import Photo, Post, AdditionalInfo
 
 
 class LandingView(View):
@@ -30,11 +30,18 @@ class RegistrationView(View):
             if form.cleaned_data['password'] == form.cleaned_data['password2']:
                 try:
                     validate_password(password=form.cleaned_data['password'])
-                    User.objects.create_user(username=form.cleaned_data['username'],
-                                             password=form.cleaned_data['password'],
-                                             first_name=form.cleaned_data['first_name'],
-                                             last_name=form.cleaned_data['last_name'],
-                                             email=form.cleaned_data['email'])
+                    u = User.objects.create_user(username=form.cleaned_data['username'],
+                                                 password=form.cleaned_data['password'],
+                                                 first_name=form.cleaned_data['first_name'],
+                                                 last_name=form.cleaned_data['last_name'],
+                                                 email=form.cleaned_data['email'])
+                    AdditionalInfo.objects.create(
+                        user=u,
+                        motorcycle=form.cleaned_data['motorcycle'],
+                        date_of_birth=form.cleaned_data['date_of_birth'],
+                        city=form.cleaned_data['city']
+                    )
+
                 except IntegrityError:
                     return render(request, 'registration.html', {'form': form, 'error': 'Użytkownik już istnieje'})
                 except ValidationError as e:
@@ -74,10 +81,10 @@ class UserProfileView(LoginRequiredMixin, View):
         content_post = Post.objects.filter(user=self.request.user).order_by('-date_add')
         content_photo = Photo.objects.filter(user=self.request.user).order_by('-date_add')
         context = {
-            'content_post':content_post,
+            'content_post': content_post,
             'content_photo': content_photo,
         }
-        return render(request, 'userprofileview.html',context)
+        return render(request, 'userprofileview.html', context)
 
 
 # class PhotoCreateView(LoginRequiredMixin, CreateView):
@@ -116,4 +123,4 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('user-profile', kwargs={'username':self.request.user.username})
+        return reverse('user-profile', kwargs={'username': self.request.user.username})

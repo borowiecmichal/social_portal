@@ -107,8 +107,12 @@ body::after {
 }
 
 .singlePost {
+    margin: 10px;
     display: flex;
     justify-content: space-between;
+    border: #aaaaaa 1px solid;
+    border-radius: 2px;
+    padding: 3px;
 }
 
 .singlePost .postContent {
@@ -120,12 +124,7 @@ body::after {
     display: flex;
     flex-direction: column;
 }
-.hide-btn{
-    margin-top: 40px;
-    background: indianred;
-    border: #db5050 5px solid;
-    border-radius: 2px;
-}
+
 
 .photoContent img{
     width: 50%;
@@ -150,4 +149,17 @@ body::after {
     max-width:100%;
     margin:0 auto;
     display:block;
+}
+
+.profileActions{
+    display: flex;
+    justify-content: space-between;
+}
+.editContentSpan button, .addContentSpan button, .hide-btn{
+    margin-top: 20px;
+    padding: 3px;
+    color: #e2e2e2;
+    background: indianred;
+    border: #db5050 5px solid;
+    border-radius: 2px;
 }
