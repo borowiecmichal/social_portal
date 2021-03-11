@@ -12,6 +12,7 @@ from django.views.generic import FormView, CreateView
 
 from portal_app.forms import RegistrationForm, LoginForm, ImageForm, EditUserForm
 from portal_app.models import Photo, Post, AdditionalInfo
+from django.contrib.auth import views as auth_views
 
 
 class LandingView(View):
@@ -48,7 +49,7 @@ class RegistrationView(View):
                     return render(request, 'registration.html',
                                   {'form': form, 'error': f'Hasło nie spełnia wymagań: {e}'})
 
-                return redirect(reverse('landing'))
+                return redirect(reverse('home'))
 
 
 class LoginView(View):
@@ -63,7 +64,7 @@ class LoginView(View):
                                 password=form.cleaned_data['password'])
             if user:
                 login(request, user)
-                return redirect(reverse('landing'))
+                return redirect(reverse('home'))
             else:
                 return render(request, 'login.html', {'form': form, 'error': 'Błędne dane logowania'})
         else:
@@ -73,7 +74,7 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        return redirect(reverse('landing'))
+        return redirect(reverse('home'))
 
 
 class UserProfileView(LoginRequiredMixin, View):
@@ -82,7 +83,7 @@ class UserProfileView(LoginRequiredMixin, View):
         content_post = Post.objects.filter(user=user).order_by('-date_add')
         content_photo = Photo.objects.filter(user=user).order_by('-date_add')
         context = {
-            'user_requested':user,
+            'user_requested': user,
             'content_post': content_post,
             'content_photo': content_photo,
         }
@@ -157,5 +158,8 @@ class ProfileEditView(View):
                 user.additionalinfo.city = form.cleaned_data['city']
                 user.save()
             except IntegrityError:
-                return render(request, 'editProfile.html', {'form': form, 'error':'Podany login jest zajęty'})
+                return render(request, 'editProfile.html', {'form': form, 'error': 'Podany login jest zajęty'})
         return redirect(reverse('user-profile', kwargs={'username': user.username}))
+
+
+

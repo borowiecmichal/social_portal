@@ -19,10 +19,11 @@ from django.urls import path
 from portal_app.views import LandingView, RegistrationView, LoginView, LogoutView, UserProfileView, PhotoCreateView, \
     PostCreateView, ProfileEditView
 from social_portal import settings
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', LandingView.as_view(), name='landing'),
+    path('', LandingView.as_view(), name='home'),
     path('login/', LoginView.as_view(), name='login'),
     path('register/', RegistrationView.as_view(), name='register'),
     path('logout/', LogoutView.as_view(), name='logout'),
@@ -30,6 +31,14 @@ urlpatterns = [
     path('add_photo/', PhotoCreateView.as_view(), name='add-photo'),
     path('add_post/', PostCreateView.as_view(), name='add-post'),
     path('profile/<str:username>/edit', ProfileEditView.as_view(), name='edit-user'),
+    path(
+        'change-password/',
+        auth_views.PasswordChangeView.as_view(
+            template_name='commons/change-password.html',
+            success_url='/'
+        ),
+        name='change_password'
+    ),
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

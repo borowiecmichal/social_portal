@@ -1,5 +1,7 @@
 import datetime
 
+from django.contrib.auth.forms import SetPasswordForm
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from django import forms
 
@@ -43,3 +45,5 @@ class EditUserForm(forms.Form):
                                                           month=datetime.date.today().month,
                                                           day=datetime.date.today().day))
     city = forms.CharField(max_length=64)
+
+
