@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import FormView, CreateView
 
-from portal_app.forms import RegistrationForm, LoginForm, ImageForm
+from portal_app.forms import RegistrationForm, LoginForm, ImageForm, EditUserForm
 from portal_app.models import Photo, Post, AdditionalInfo
 
 
@@ -78,9 +78,11 @@ class LogoutView(View):
 
 class UserProfileView(LoginRequiredMixin, View):
     def get(self, request, username):
-        content_post = Post.objects.filter(user=self.request.user).order_by('-date_add')
-        content_photo = Photo.objects.filter(user=self.request.user).order_by('-date_add')
+        user = User.objects.get(username=username)
+        content_post = Post.objects.filter(user=user).order_by('-date_add')
+        content_photo = Photo.objects.filter(user=user).order_by('-date_add')
         context = {
+            'user_requested':user,
             'content_post': content_post,
             'content_photo': content_photo,
         }
@@ -124,3 +126,36 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('user-profile', kwargs={'username': self.request.user.username})
+
+
+class ProfileEditView(View):
+    def get(self, request, username):
+        user = User.objects.get(username=username)
+        form = EditUserForm(initial={
+            'username': username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'motorcycle': user.additionalinfo.motorcycle,
+            'date_of_birth': user.additionalinfo.date_of_birth,
+            'city': user.additionalinfo.city
+        })
+        return render(request, 'editProfile.html', {'form': form})
+
+    def post(self, request, username):
+        form = EditUserForm(request.POST)
+        user = User.objects.get(username=username)
+        if form.is_valid():
+            try:
+                user = User.objects.get(username=username)
+                user.username = form.cleaned_data['username']
+                user.first_name = form.cleaned_data['first_name']
+                user.last_name = form.cleaned_data['last_name']
+                user.email = form.cleaned_data['email']
+                user.additionalinfo.motorcycle = form.cleaned_data['motorcycle']
+                user.additionalinfo.date_of_birth = form.cleaned_data['date_of_birth']
+                user.additionalinfo.city = form.cleaned_data['city']
+                user.save()
+            except IntegrityError:
+                return render(request, 'editProfile.html', {'form': form, 'error':'Podany login jest zajęty'})
+        return redirect(reverse('user-profile', kwargs={'username': user.username}))

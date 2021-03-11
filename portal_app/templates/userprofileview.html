@@ -3,10 +3,11 @@
 {% block title %}{{ user.first_name }} {{ user.last_name }}{% endblock %}
 {% block content %}
     <div class="userBoard">
-        <p>{{ user.first_name }} {{ user.last_name }}</p>
-        <p>{{ user.username }}</p>
+        <p>{{ user_requested.first_name }} {{ user_requested.last_name }}</p>
+        <p>{{ user_requested.username }}</p>
     </div>
 
+    {% if user_requested == user %}
     <div class="profileActions">
         <span class="editContentSpan">
             <button onclick="location.href='/profile/{{ user.username }}/edit'">Edytuj profil</button>
@@ -17,6 +18,7 @@
             <button onclick="location.href='/add_post'">Dodaj post</button>
         </span>
     </div>
+    {% endif %}
 
     <div class="profileContent">
         <button id='hidePostsBtn' class="hide-btn">Ukryj posty</button>

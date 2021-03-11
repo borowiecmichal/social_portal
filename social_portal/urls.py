@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns, static
 from django.urls import path
 from portal_app.views import LandingView, RegistrationView, LoginView, LogoutView, UserProfileView, PhotoCreateView, \
-    PostCreateView
+    PostCreateView, ProfileEditView
 from social_portal import settings
 
 urlpatterns = [
@@ -28,7 +28,8 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('profile/<str:username>', UserProfileView.as_view(), name='user-profile'),
     path('add_photo/', PhotoCreateView.as_view(), name='add-photo'),
-    path('add_post/', PostCreateView.as_view(), name='add-post')
+    path('add_post/', PostCreateView.as_view(), name='add-post'),
+    path('profile/<str:username>/edit', ProfileEditView.as_view(), name='edit-user'),
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
