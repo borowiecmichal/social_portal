@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}{{ user.first_name }} {{ user.last_name }}{% endblock %}
+{% block title %}{{ user_requested.first_name }} {{ user_requested.last_name }}{% endblock %}
 {% block content %}
     <div class="userBoard">
         <p>{{ user_requested.first_name }} {{ user_requested.last_name }}</p>
@@ -8,16 +8,16 @@
     </div>
 
     {% if user_requested == user %}
-    <div class="profileActions">
+        <div class="profileActions">
         <span class="editContentSpan">
             <button onclick="location.href='/profile/{{ user.username }}/edit'">Edytuj profil</button>
         </span>
 
-        <span class="addContentSpan">
+            <span class="addContentSpan">
             <button onclick="location.href='/add_photo'">Dodaj zdjęcie</button>
             <button onclick="location.href='/add_post'">Dodaj post</button>
         </span>
-    </div>
+        </div>
     {% endif %}
 
     <div class="profileContent">
@@ -25,17 +25,27 @@
         {% for item in content_post %}
             <div class="singlePost">
                 <div class="postContent"> {{ item.content }}</div>
+                <div class="comments">
+                    {% for comm in item.comment_set.all %}
+                        <p class="commentContent">{{ comm.content }}</p>
+                        <p class="commentCreator">{{ comm.user.username }}</p>
+                    {% endfor %}
+                <button onclick="location.href='{% url 'comment-post' item.id %}'">Dodaj komentarz</button>
+                </div>
                 <div class="datePost">{{ item.date_add|date:'d.m.Y H:i' }}</div>
             </div>
+
         {% endfor %}
 
         <button id='hidePhotosBtn' class="hide-btn">Ukryj zdjęcia</button>
         {% for item in content_photo %}
-            <div id='hidePhotos' class="singlePhoto">
-                <div class="photoContent"><img src="{{ item.photo.url }}"></div>
-                <div class="datePost">{{ item.date_add }}</div>
-                <br>
-                <div class="photoDescription">{{ item.description }}</div>
+            <div class="singlePhoto">
+                <div class="photoContent">
+                    <img src="{{ item.photo.url }}">
+                    <p class="photoDescription">{{ item.description }}</p>
+                </div>
+                <div class="datePost">{{ item.date_add|date:'d.m.Y H:i' }}</div>
+
             </div>
         {% endfor %}
 

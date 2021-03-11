@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Dodaj komentarz{% endblock %}
+{% block content %}
+    <div>
+        <p class="commentContent">{{ commented_item.content }}</p>
+        <p class="commentCreator">{{ commented_item.user.username }}</p>
+    </div>
+    <div class="error">{{ error }}</div>
+    <form id="commentForm" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input id="login-btn" type="submit" VALUE="Dodaj">
+    </form>
+{% endblock %}

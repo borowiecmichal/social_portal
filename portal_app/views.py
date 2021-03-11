@@ -5,13 +5,13 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
 from django.views.generic import FormView, CreateView
 
 from portal_app.forms import RegistrationForm, LoginForm, ImageForm, EditUserForm
-from portal_app.models import Photo, Post, AdditionalInfo
+from portal_app.models import Photo, Post, AdditionalInfo, Comment
 from django.contrib.auth import views as auth_views
 
 
@@ -150,7 +150,7 @@ class ProfileEditView(View):
             try:
                 user = User.objects.get(username=username)
                 user.username = form.cleaned_data['username']
-                user.first_name = form.cleaned_data['first_name']
+                user.first_name = form.cleane_data['first_name']
                 user.last_name = form.cleaned_data['last_name']
                 user.email = form.cleaned_data['email']
                 user.additionalinfo.motorcycle = form.cleaned_data['motorcycle']
@@ -162,4 +162,21 @@ class ProfileEditView(View):
         return redirect(reverse('user-profile', kwargs={'username': user.username}))
 
 
+class CommentToPostAddView(LoginRequiredMixin, CreateView):
+    model = Comment
+    fields = ['content']
+    template_name = 'portal_app/comment_form.html'
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.post = get_object_or_404(Post, pk=self.kwargs.get('post_id'))
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('user-profile', kwargs={'username': self.request.user.username})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        commented_item = get_object_or_404(Post, pk=self.kwargs.get('post_id'))
+        context["commented_item"] = commented_item
+        return context

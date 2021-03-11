@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from django import forms
 
-from portal_app.models import Photo
+from portal_app.models import Photo, Comment
 
 
 class RegistrationForm(forms.Form):
@@ -47,3 +47,7 @@ class EditUserForm(forms.Form):
     city = forms.CharField(max_length=64)
 
 
+class AddCommentToPostForm(ModelForm):
+    class Meta:
+        model = Comment
+        exclude = ['photo', 'user', 'date_add']
