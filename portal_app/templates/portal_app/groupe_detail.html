@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ object.name }}{% endblock %}
+{% block content %}
+    <div class="error">{{ error }}</div>
+    <div class="profileContent">
+        <button id='hidePostsBtn' class="hide-btn">Ukryj posty</button>
+        {% for item in object.post_set.all %}
+            <div class="singlePost">
+                <div class="postContent"> {{ item.content }}</div>
+                <div class="comments">
+                    {% for comm in item.comment_set.all %}
+                        <p class="commentContent">{{ comm.content }}</p>
+                        <p class="commentCreator">{{ comm.user.username }}</p>
+                    {% endfor %}
+                <button onclick="location.href='{% url 'comment-post' item.id %}'">Dodaj komentarz</button>
+                </div>
+                <div class="datePost">{{ item.date_add|date:'d.m.Y H:i' }}</div>
+            </div>
+
+        {% endfor %}
+
+{% endblock %}

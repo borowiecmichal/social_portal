@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Dodaj post{% endblock %}
+{% block content %}
+    <div class="error">{{ error }}</div>
+    <form class="addContentForm" id="addPostForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input id="login-btn" type="submit" VALUE="Dodaj">
+    </form>
+{% endblock %}

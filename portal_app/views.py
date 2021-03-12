@@ -11,7 +11,7 @@ from django.views import View
 from django.views.generic import FormView, CreateView, ListView, DetailView
 
 from portal_app.forms import RegistrationForm, LoginForm, ImageForm, EditUserForm
-from portal_app.models import Photo, Post, AdditionalInfo, Comment, Category, Group
+from portal_app.models import Photo, Post, AdditionalInfo, Comment, Category, Groupe
 from django.contrib.auth import views as auth_views
 
 
@@ -183,9 +183,27 @@ class CommentToPostAddView(LoginRequiredMixin, CreateView):
         return context
 
 
+###################GRUPY#########################
+
 class GroupView(LoginRequiredMixin, ListView):
-    model = Group
+    model = Groupe
     paginate_by = 20
 
+
 class GroupDetail(LoginRequiredMixin, DetailView):
-    model = Group
+    model = Groupe
+
+
+class GroupPostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['content']
+    template_name = 'grouppost_create_form.html'
+
+    def form_valid(self, form):
+        group = Groupe.objects.get(slug=self.kwargs.get('slug'))
+        form.instance.user = self.request.user
+        form.instance.group = group
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('group-details', kwargs={'slug': self.kwargs.get('slug')})

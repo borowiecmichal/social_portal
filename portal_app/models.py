@@ -15,7 +15,7 @@ class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_add = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
-    group = models.ForeignKey('Group', on_delete=models.SET_DEFAULT, null=True, default=None)
+    group = models.ForeignKey('Groupe', on_delete=models.SET_DEFAULT, null=True, default=None)
 
 
 class Photo(models.Model):
@@ -38,24 +38,23 @@ class Category(models.Model):
     upper_class_category = models.ForeignKey('self', on_delete=models.CASCADE, null=True, default=None)
 
 
-class Group(models.Model):
+class Groupe(models.Model):
     name = models.CharField(max_length=128)
-    categories = models.ManyToManyField(Category)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)
-    slug = models.SlugField(max_length=128, null=True, default=None)
+    slug = models.SlugField(max_length=128, null=True, default=None, unique=True)
 
     def get_categories_list(self):
-        cats = self.categories.all()
-        list_categories = []
-        for cat in cats:
-            path=[]
-            while cat.upper_class_category:
-                path.append(cat.upper_class_category.name)
-                cat = cat.upper_class_category
-            path.reverse()
-            path='➝'.join(path)
-            list_categories.append(path)
-        return list_categories
+        cat = self.category
+        path = []
+        while cat.upper_class_category:
+            path.append(cat.upper_class_category.name)
+            cat = cat.upper_class_category
+        path.reverse()
+        path = '➝'.join(path)
+
+        return path
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)

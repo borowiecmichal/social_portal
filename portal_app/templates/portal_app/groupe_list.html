@@ -11,9 +11,7 @@
                     <button>Dołącz</button>
                 </div>
                 <div class="hide">
-                    {% for list in group.get_categories_list %}
-                        <p class="categoryPath">{{ list }}</p>
-                    {% endfor %}
+                        <p class="categoryPath">{{ group.get_categories_list }}</p>
                 </div>
             </li>
         {% endfor %}
