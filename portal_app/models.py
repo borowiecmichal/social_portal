@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
 
 
 class AdditionalInfo(models.Model):
@@ -41,6 +42,23 @@ class Group(models.Model):
     name = models.CharField(max_length=128)
     categories = models.ManyToManyField(Category)
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    slug = models.SlugField(max_length=128, null=True, default=None)
+
+    def get_categories_list(self):
+        cats = self.categories.all()
+        list_categories = []
+        for cat in cats:
+            path=[]
+            while cat.upper_class_category:
+                path.append(cat.upper_class_category.name)
+                cat = cat.upper_class_category
+            path.reverse()
+            path='➝'.join(path)
+            list_categories.append(path)
+        return list_categories
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 
 class Messages(models.Model):

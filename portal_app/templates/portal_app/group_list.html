@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Grupy{% endblock %}
+{% block content %}
+    <div class="error">{{ error }}</div>
+    <ul>
+        {% for group in object_list %}
+            <li class="singleGroup">
+                <div class="groupName">{{ group.name }}</div>
+                <div class="hide">
+                    {% for list in group.get_categories_list %}
+                        <p class="categoryPath">{{ list }}</p>
+                    {% endfor %}
+                </div>
+            </li>
+        {% endfor %}
+
+    </ul>
+    <script src={% static 'groupView.js' %}></script>
+{% endblock %}

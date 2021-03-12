@@ -8,10 +8,10 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
-from django.views.generic import FormView, CreateView
+from django.views.generic import FormView, CreateView, ListView
 
 from portal_app.forms import RegistrationForm, LoginForm, ImageForm, EditUserForm
-from portal_app.models import Photo, Post, AdditionalInfo, Comment
+from portal_app.models import Photo, Post, AdditionalInfo, Comment, Category, Group
 from django.contrib.auth import views as auth_views
 
 
@@ -181,3 +181,8 @@ class CommentToPostAddView(LoginRequiredMixin, CreateView):
         commented_item = get_object_or_404(Post, pk=self.kwargs.get('post_id'))
         context["commented_item"] = commented_item
         return context
+
+
+class GroupView(ListView):
+    model = Group
+    paginate_by = 20

@@ -17,9 +17,12 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns, static
 from django.urls import path
 from portal_app.views import LandingView, RegistrationView, LoginView, LogoutView, UserProfileView, PhotoCreateView, \
-    PostCreateView, ProfileEditView, CommentToPostAddView
+    PostCreateView, ProfileEditView, CommentToPostAddView, GroupView
 from social_portal import settings
 from django.contrib.auth import views as auth_views
+
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,7 +42,8 @@ urlpatterns = [
         ),
         name='change_password'
     ),
-    path('comment-post/<int:post_id>', CommentToPostAddView.as_view(), name='comment-post')
+    path('comment-post/<int:post_id>', CommentToPostAddView.as_view(), name='comment-post'),
+    path('groups', GroupView.as_view(), name='groups')
 ]
 
 urlpatterns += staticfiles_urlpatterns()
