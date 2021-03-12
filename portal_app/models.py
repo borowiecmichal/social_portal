@@ -34,7 +34,7 @@ class Comment(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=64)
-    upper_class_category = models.ForeignKey('self', on_delete=models.CASCADE)
+    upper_class_category = models.ForeignKey('self', on_delete=models.CASCADE, null=True, default=None)
 
 
 class Group(models.Model):
