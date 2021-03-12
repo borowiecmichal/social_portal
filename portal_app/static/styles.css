@@ -181,3 +181,16 @@ body::after {
     margin-bottom: 0px;
     padding-bottom: 0px;
 }
+
+.groupName{
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    background: #db5050;
+    border: #db5050 5px solid;
+    border-radius: 2px;
+    color: #e2e2e2;
+}
+

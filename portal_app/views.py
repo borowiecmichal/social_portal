@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
-from django.views.generic import FormView, CreateView, ListView
+from django.views.generic import FormView, CreateView, ListView, DetailView
 
 from portal_app.forms import RegistrationForm, LoginForm, ImageForm, EditUserForm
 from portal_app.models import Photo, Post, AdditionalInfo, Comment, Category, Group
@@ -183,6 +183,9 @@ class CommentToPostAddView(LoginRequiredMixin, CreateView):
         return context
 
 
-class GroupView(ListView):
+class GroupView(LoginRequiredMixin, ListView):
     model = Group
     paginate_by = 20
+
+class GroupDetail(LoginRequiredMixin, DetailView):
+    model = Group

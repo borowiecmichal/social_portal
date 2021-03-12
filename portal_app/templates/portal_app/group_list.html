@@ -6,7 +6,10 @@
     <ul>
         {% for group in object_list %}
             <li class="singleGroup">
-                <div class="groupName">{{ group.name }}</div>
+                <div class="groupName">
+                    <a href="{% url 'group-details' group.slug %}">{{ group.name }}</a>
+                    <button>Dołącz</button>
+                </div>
                 <div class="hide">
                     {% for list in group.get_categories_list %}
                         <p class="categoryPath">{{ list }}</p>
