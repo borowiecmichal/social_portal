@@ -229,3 +229,9 @@ class GroupAppendView(LoginRequiredMixin, View):
         groupe.users.add(request.user)
         groupe.save()
         return redirect(reverse('group-details', kwargs={'slug': self.kwargs.get('slug')}))
+
+class GroupCreateView(LoginRequiredMixin, CreateView):
+    model = Groupe
+    fields = ['name', 'category']
+    def get_success_url(self):
+        return reverse('groups')

@@ -3,6 +3,9 @@
 {% block title %}Grupy{% endblock %}
 {% block content %}
     <div class="error">{{ error }}</div>
+    <div class="groupActions">
+            <button onclick="location.href='{% url 'create-group' %}'">Utwórz grupę</button>
+        </div>
     <ul>
         {% for group in object_list %}
             <li class="singleGroup">

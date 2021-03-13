@@ -5,7 +5,12 @@
     <div class="error">{{ error }}</div>
     <h2 class="pageTitle">Grupa {{ object.name }}</h2>
     <p>Liczba członków: {{ object.users.count }}</p>
-    <div class="profileContent">
+    <div class="groupAction">
+        <span class="addContentSpan">
+            <button onclick="location.href='{% url 'group-post' object.slug %}'">Dodaj post</button>
+        </span>
+    </div>
+    <div class="groupContent">
         <button id='hidePostsBtn' class="hide-btn">Ukryj posty</button>
         {% for item in object.post_set.all %}
             <div class="singlePost">

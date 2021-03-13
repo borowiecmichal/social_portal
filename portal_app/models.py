@@ -45,7 +45,8 @@ class Comment(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=64)
     upper_class_category = models.ForeignKey('self', on_delete=models.CASCADE, null=True, default=None)
-
+    def __str__(self):
+        return self.name
 
 class Groupe(models.Model):
     name = models.CharField(max_length=128)
