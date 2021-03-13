@@ -3,8 +3,15 @@
 {% block title %}{{ user_requested.first_name }} {{ user_requested.last_name }}{% endblock %}
 {% block content %}
     <div class="userBoard">
-        <p>{{ user_requested.first_name }} {{ user_requested.last_name }}</p>
-        <p>{{ user_requested.username }}</p>
+        <div>
+            <p class="boardContent">{{ user_requested.first_name }} {{ user_requested.last_name }}</p>
+            <p class="boardContent commentCreator">{{ user_requested.username }}</p>
+        </div>
+        <div>
+            <p class="boardContent">{{ user_requested.additionalinfo.motorcycle }}</p>
+            <p class="boardContent">{{ user_requested.additionalinfo.city }}</p>
+            <p class="boardContent">{{ user_requested.additionalinfo.age }} lat</p>
+        </div>
     </div>
 
     {% if user_requested == user %}
@@ -28,9 +35,11 @@
                 <div class="comments">
                     {% for comm in item.comment_set.all %}
                         <p class="commentContent">{{ comm.content }}</p>
-                        <p class="commentCreator">{{ comm.user.username }}</p>
+                        <p class="commentCreator"><a class="commentCreator"
+                                                     href="{% url 'user-profile' comm.user.username %}">{{ comm.user.username }}</a>
+                        </p>
                     {% endfor %}
-                <button onclick="location.href='{% url 'comment-post' item.id %}'">Dodaj komentarz</button>
+                    <button onclick="location.href='{% url 'comment-post' item.id %}'">Dodaj komentarz</button>
                 </div>
                 <div class="datePost">{{ item.date_add|date:'d.m.Y H:i' }}</div>
             </div>

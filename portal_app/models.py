@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
@@ -9,6 +11,10 @@ class AdditionalInfo(models.Model):
     date_of_birth = models.DateField(default=None, null=True)
     city = models.CharField(max_length=64, default=None, null=True)
 
+    @property
+    def age(self):
+        return (datetime.datetime.now().date()-self.date_of_birth).days//365
+
 
 class Post(models.Model):
     content = models.TextField(verbose_name='Treść')
@@ -16,6 +22,9 @@ class Post(models.Model):
     date_add = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
     group = models.ForeignKey('Groupe', on_delete=models.SET_DEFAULT, null=True, default=None)
+
+    class Meta:
+        ordering = ['-date_add']
 
 
 class Photo(models.Model):

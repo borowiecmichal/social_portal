@@ -194,3 +194,15 @@ button {
     color: #e2e2e2;
 }
 
+.pageTitle{
+    text-align: center;
+}
+
+.boardContent{
+    margin: 0px;
+}
+
+#registrationForm{
+    display: flex;
+    flex-direction: column;
+}

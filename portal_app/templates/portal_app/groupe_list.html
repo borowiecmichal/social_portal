@@ -8,7 +8,7 @@
             <li class="singleGroup">
                 <div class="groupName">
                     <a href="{% url 'group-details' group.slug %}">{{ group.name }}</a>
-                    <button>Dołącz</button>
+                    <button onclick="location.href='{% url 'group-append' group.slug %}'">Dołącz</button>
                 </div>
                 <div class="hide">
                         <p class="categoryPath">{{ group.get_categories_list }}</p>

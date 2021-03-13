@@ -3,17 +3,26 @@
 {% block title %}{{ object.name }}{% endblock %}
 {% block content %}
     <div class="error">{{ error }}</div>
+    <h2 class="pageTitle">Grupa {{ object.name }}</h2>
+    <p>Liczba członków: {{ object.users.count }}</p>
     <div class="profileContent">
         <button id='hidePostsBtn' class="hide-btn">Ukryj posty</button>
         {% for item in object.post_set.all %}
             <div class="singlePost">
-                <div class="postContent"> {{ item.content }}</div>
+                <div class="postContent">
+                    <div>{{ item.content }}</div>
+                    <p class="commentCreator"><a class="commentCreator"
+                                                 href="{% url 'user-profile' item.user.username %}">{{ item.user.username }}</a>
+                    </p>
+                </div>
                 <div class="comments">
                     {% for comm in item.comment_set.all %}
                         <p class="commentContent">{{ comm.content }}</p>
-                        <p class="commentCreator">{{ comm.user.username }}</p>
+                        <p class="commentCreator"><a class="commentCreator"
+                                                     href="{% url 'user-profile' comm.user.username %}">{{ comm.user.username }}</a>
+                        </p>
                     {% endfor %}
-                <button onclick="location.href='{% url 'comment-post' item.id %}'">Dodaj komentarz</button>
+                    <button onclick="location.href='{% url 'comment-post' item.id %}'">Dodaj komentarz</button>
                 </div>
                 <div class="datePost">{{ item.date_add|date:'d.m.Y H:i' }}</div>
             </div>

@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -150,13 +150,16 @@ class ProfileEditView(View):
             try:
                 user = User.objects.get(username=username)
                 user.username = form.cleaned_data['username']
-                user.first_name = form.cleane_data['first_name']
+                user.first_name = form.cleaned_data['first_name']
                 user.last_name = form.cleaned_data['last_name']
                 user.email = form.cleaned_data['email']
                 user.additionalinfo.motorcycle = form.cleaned_data['motorcycle']
+                print(form.cleaned_data['motorcycle'])
                 user.additionalinfo.date_of_birth = form.cleaned_data['date_of_birth']
                 user.additionalinfo.city = form.cleaned_data['city']
+                user.additionalinfo.save()
                 user.save()
+                print(user.additionalinfo.motorcycle)
             except IntegrityError:
                 return render(request, 'editProfile.html', {'form': form, 'error': 'Podany login jest zajęty'})
         return redirect(reverse('user-profile', kwargs={'username': user.username}))
@@ -190,7 +193,16 @@ class GroupView(LoginRequiredMixin, ListView):
     paginate_by = 20
 
 
-class GroupDetail(LoginRequiredMixin, DetailView):
+class GroupDetail(UserPassesTestMixin, LoginRequiredMixin, DetailView):
+    def test_func(self):
+        slug = self.kwargs.get("slug")
+        groupe = Groupe.objects.get(slug=slug)
+        user = self.request.user
+        if groupe.users.filter(id=user.id).exists():
+            return True
+        else:
+            return False
+
     model = Groupe
 
 
@@ -207,3 +219,13 @@ class GroupPostCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('group-details', kwargs={'slug': self.kwargs.get('slug')})
+
+
+class GroupAppendView(LoginRequiredMixin, View):
+
+
+    def get(self, request, slug):
+        groupe = Groupe.objects.get(slug=slug)
+        groupe.users.add(request.user)
+        groupe.save()
+        return redirect(reverse('group-details', kwargs={'slug': self.kwargs.get('slug')}))

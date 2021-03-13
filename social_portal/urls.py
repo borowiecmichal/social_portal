@@ -17,12 +17,9 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns, static
 from django.urls import path
 from portal_app.views import LandingView, RegistrationView, LoginView, LogoutView, UserProfileView, PhotoCreateView, \
-    PostCreateView, ProfileEditView, CommentToPostAddView, GroupView, GroupDetail, GroupPostCreateView
+    PostCreateView, ProfileEditView, CommentToPostAddView, GroupView, GroupDetail, GroupPostCreateView, GroupAppendView
 from social_portal import settings
 from django.contrib.auth import views as auth_views
-
-
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,7 +42,8 @@ urlpatterns = [
     path('comment-post/<int:post_id>', CommentToPostAddView.as_view(), name='comment-post'),
     path('groups', GroupView.as_view(), name='groups'),
     path('group/<slug:slug>/', GroupDetail.as_view(), name='group-details'),
-    path('group/<slug:slug>/add_post', GroupPostCreateView.as_view(), name='group-post')
+    path('group/<slug:slug>/add_post', GroupPostCreateView.as_view(), name='group-post'),
+    path('group/<slug:slug>/append', GroupAppendView.as_view(), name='group-append'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
