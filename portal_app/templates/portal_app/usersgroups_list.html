@@ -5,17 +5,13 @@
     <div class="error">{{ error }}</div>
     <div class="groupActions">
         <button onclick="location.href='{% url 'create-group' %}'">Utwórz grupę</button>
+        <button onclick="location.href='{% url 'groups' %}'">Przeglądaj grupy</button>
     </div>
     <ul>
         {% for group in object_list %}
             <li class="singleGroup">
                 <div class="groupName">
                     <a href="{% url 'group-details' group.slug %}">{{ group.name }}</a>
-                    {% if group not in request.user.groupe_set.all %}
-                        <button onclick="location.href='{% url 'group-append' group.slug %}'">Dołącz</button>
-                    {% else %}
-                        <p>Jesteś członkiem tej grupy</p>
-                    {% endif %}
                 </div>
                 <div class="hide">
                     <p class="categoryPath">{{ group.get_categories_list }}</p>

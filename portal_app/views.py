@@ -64,6 +64,8 @@ class LoginView(View):
                                 password=form.cleaned_data['password'])
             if user:
                 login(request, user)
+                if request.GET.get('next'):
+                    return redirect(request.GET.get('next'))
                 return redirect(reverse('home'))
             else:
                 return render(request, 'login.html', {'form': form, 'error': 'Błędne dane logowania'})
@@ -223,15 +225,27 @@ class GroupPostCreateView(LoginRequiredMixin, CreateView):
 
 class GroupAppendView(LoginRequiredMixin, View):
 
-
     def get(self, request, slug):
         groupe = Groupe.objects.get(slug=slug)
         groupe.users.add(request.user)
         groupe.save()
         return redirect(reverse('group-details', kwargs={'slug': self.kwargs.get('slug')}))
 
+
 class GroupCreateView(LoginRequiredMixin, CreateView):
     model = Groupe
     fields = ['name', 'category']
+
     def get_success_url(self):
         return reverse('groups')
+
+
+class UsersGroupeView(LoginRequiredMixin, ListView):
+    model = Groupe
+    paginate_by = 20
+    template_name = 'portal_app/usersgroups_list.html'
+
+    def get_queryset(self):
+        user = User.objects.get(username=self.kwargs.get('username'))
+        print(user.groupe_set.all())
+        return user.groupe_set.all()

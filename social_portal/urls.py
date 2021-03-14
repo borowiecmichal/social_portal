@@ -18,7 +18,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns, static
 from django.urls import path
 from portal_app.views import LandingView, RegistrationView, LoginView, LogoutView, UserProfileView, PhotoCreateView, \
     PostCreateView, ProfileEditView, CommentToPostAddView, GroupView, GroupDetail, GroupPostCreateView, GroupAppendView, \
-    GroupCreateView
+    GroupCreateView, UsersGroupeView
 from social_portal import settings
 from django.contrib.auth import views as auth_views
 
@@ -41,12 +41,12 @@ urlpatterns = [
         name='change_password'
     ),
     path('comment-post/<int:post_id>', CommentToPostAddView.as_view(), name='comment-post'),
-    path('groups', GroupView.as_view(), name='groups'),
+    path('groups/', GroupView.as_view(), name='groups'),
     path('group/<slug:slug>/', GroupDetail.as_view(), name='group-details'),
     path('group/<slug:slug>/add_post', GroupPostCreateView.as_view(), name='group-post'),
     path('group/<slug:slug>/append', GroupAppendView.as_view(), name='group-append'),
-    path('create-group',GroupCreateView.as_view(),name='create-group'),
+    path('create-group', GroupCreateView.as_view(), name='create-group'),
+    path('<str:username>/groups/', UsersGroupeView.as_view(), name='users-groups'),
 ]
-
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

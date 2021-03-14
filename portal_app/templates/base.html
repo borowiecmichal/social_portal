@@ -12,6 +12,7 @@
 <span class="navigation">
     {% if user.is_authenticated %}
         <div>Witaj {{ user.first_name }}</div>
+        <div><a href="{% url 'users-groups' user.username  %}">Twoje grupy</a></div>
         <div><a href="{% url 'user-profile' user.username  %}">Twój profil</a></div>
         <div><a href="{% url 'logout' %}">Wyloguj</a></div>
     {% else %}

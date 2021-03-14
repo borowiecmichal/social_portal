@@ -13,7 +13,7 @@ class AdditionalInfo(models.Model):
 
     @property
     def age(self):
-        return (datetime.datetime.now().date()-self.date_of_birth).days//365
+        return (datetime.datetime.now().date() - self.date_of_birth).days // 365
 
 
 class Post(models.Model):
@@ -45,8 +45,10 @@ class Comment(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=64)
     upper_class_category = models.ForeignKey('self', on_delete=models.CASCADE, null=True, default=None)
+
     def __str__(self):
         return self.name
+
 
 class Groupe(models.Model):
     name = models.CharField(max_length=128)
@@ -56,7 +58,7 @@ class Groupe(models.Model):
 
     def get_categories_list(self):
         cat = self.category
-        path = []
+        path = [cat.name]
         while cat.upper_class_category:
             path.append(cat.upper_class_category.name)
             cat = cat.upper_class_category
