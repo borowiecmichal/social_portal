@@ -64,12 +64,14 @@ class Groupe(models.Model):
             cat = cat.upper_class_category
         path.reverse()
         path = '➝'.join(path)
-
         return path
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['category']
 
 
 class Messages(models.Model):

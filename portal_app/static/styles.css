@@ -124,6 +124,7 @@ body::after {
 .singlePost .comments{
     margin: 20px;
     width: 30%;
+    max-height: 200px;
     overflow: auto;
 }
 

@@ -66,7 +66,7 @@ class LoginView(View):
                 login(request, user)
                 if request.GET.get('next'):
                     return redirect(request.GET.get('next'))
-                return redirect(reverse('home'))
+                return redirect(reverse('user-profile', kwargs={'username':user.username}))
             else:
                 return render(request, 'login.html', {'form': form, 'error': 'Błędne dane logowania'})
         else:
@@ -82,7 +82,7 @@ class LogoutView(View):
 class UserProfileView(LoginRequiredMixin, View):
     def get(self, request, username):
         user = User.objects.get(username=username)
-        content_post = Post.objects.filter(user=user).order_by('-date_add')
+        content_post = Post.objects.filter(user=user, group__isnull=True).order_by('-date_add')
         content_photo = Photo.objects.filter(user=user).order_by('-date_add')
         context = {
             'user_requested': user,
