@@ -8,6 +8,9 @@
             {% if user != request.user %}
                 <li class="singleUser">
                     <a href="{% url 'messages-with-user' user.username %}">{{ user.username }}</a>
+                    {% if user.unseen > 0 %}
+                        <span class="unseenMessages"> {{ user.unseen }} </span>
+                    {% endif %}
                 </li>
             {% endif %}
         {% endfor %}

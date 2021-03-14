@@ -79,3 +79,4 @@ class Messages(models.Model):
     from_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='from_msg')
     to_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='to_msg')
     date = models.DateTimeField(auto_now_add=True)
+    seen = models.BooleanField(default=False, null=False)

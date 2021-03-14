@@ -280,6 +280,16 @@ class UsersGroupeView(LoginRequiredMixin, ListView):
 class MessagesView(LoginRequiredMixin, ListView):
     model = User
     paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super(MessagesView, self).get_context_data(**kwargs)
+        myUserObj = self.request.user
+        for with_user in context['object_list']:
+            unseen_to_me = Messages.objects.filter(from_user=with_user, to_user=myUserObj, seen=False)
+            with_user.unseen = unseen_to_me.count()
+        print(context['object_list'][2].unseen)
+        return context
+
     template_name = 'portal_app/usersList_forMessages.html'
 
 
@@ -303,4 +313,4 @@ class MessagesWithUser(LoginRequiredMixin, View):
             from_user = request.user
             to_user = User.objects.get(username=with_username)
             Messages.objects.create(content=message, from_user=from_user, to_user=to_user)
-            return redirect(reverse('messages-with-user', kwargs={'with_username':to_user.username}))
+            return redirect(reverse('messages-with-user', kwargs={'with_username': to_user.username}))
