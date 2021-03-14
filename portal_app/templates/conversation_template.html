@@ -9,20 +9,22 @@
                 {% if message.from_user == request.user %}
                     <div class="myMessageContent">
                         <span class="messageText">{{ message.content }}</span>
-                        <span>{{ message.date|date:'d.m.Y H:i' }}</span>
+                        <span class="date hide">{{ message.date|date:'d.m.Y H:i' }}</span>
                     </div>
                 {% else %}
                     <div class="toMeMessageContent">
                         <span class="messageText">{{ message.content }}</span>
-                        <span>{{ message.date|date:'d.m.Y H:i' }}</span>
+                        <span class="date hide">{{ message.date|date:'d.m.Y H:i' }}</span>
                     </div>
                 {% endif %}
             </div>
         {% endfor %}
     </div>
-    <form method="post">
+    <form class="sendMessage" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="Submit" VALUE="Wyślij">
     </form>
+{#    <meta http-equiv="refresh" content="5">#}
+    <script src={% static 'conversation.js' %}></script>
 {% endblock %}

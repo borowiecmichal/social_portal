@@ -115,7 +115,7 @@ body::after {
     padding: 3px;
 }
 
-.singlePost .postContent{
+.singlePost .postContent {
     margin: 20px;
     width: 50%;
     overflow: auto;
@@ -128,11 +128,12 @@ body::after {
     overflow: auto;
 }
 
-.singlePhoto .photoContent{
+.singlePhoto .photoContent {
     margin: 20px;
     width: 50%;
     overflow: auto;
 }
+
 .singlePhoto .comments {
     margin: 20px;
     width: 30%;
@@ -231,7 +232,7 @@ button {
     flex-direction: column;
 }
 
-.myMessageContent, .toMeMessageContent{
+.myMessageContent, .toMeMessageContent {
     display: flex;
     justify-content: space-between;
     padding: 10px;
@@ -239,16 +240,43 @@ button {
     border-radius: 10px;
 }
 
-.myMessageContent{
+.myMessageContent {
     background: #424242;
     color: #e2e2e2;
 }
 
-.toMeMessageContent{
+.toMeMessageContent {
     background: #ffffff;
 }
 
-.messageText{
+.messageText {
     max-width: 75%;
     overflow: auto;
+}
+
+.conversation {
+    max-height: 800px;
+    overflow: auto;
+}
+
+.sendMessage {
+    display: flex;
+    align-items: center;
+    margin: 10px 20px 10px 20px;
+}
+
+
+.sendMessage input {
+    width: 20%;
+    height: 100%;
+}
+
+.sendMessage p {
+    width: 80%;
+    padding-right: 50px;
+}
+
+#id_message {
+    width: 100%;
+    height: 100%;
 }
