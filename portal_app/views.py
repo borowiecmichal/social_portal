@@ -299,6 +299,9 @@ class MessagesWithUser(LoginRequiredMixin, View):
         with_user = User.objects.get(username=with_username)
         messages_received = Messages.objects.filter(from_user=with_user, to_user=request.user)
         messages_send = Messages.objects.filter(to_user=with_user, from_user=request.user)
+        for msg in messages_received.filter(seen=False):
+            msg.seen = True
+            msg.save()
         chained = sorted(list(chain(messages_received, messages_send)), key=attrgetter('date'))
         return render(request, 'conversation_template.html', {
             'messages': chained,
