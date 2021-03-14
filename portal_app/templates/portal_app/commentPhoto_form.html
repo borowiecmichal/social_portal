@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Dodaj komentarz{% endblock %}
+{% block content %}
+    {#    <div>#}
+    {#        <p class="commentContent">{{ commented_item.photo }}</p>#}
+    {#        <p class="commentCreator">{{ commented_item.user.username }}</p>#}
+    {#    </div>#}
+
+    <div class="singlePhoto">
+        <div class="photoContent">
+            <img src="{{ commented_item.photo.url }}">
+            <p class="photoDescription">{{ commented_item.description }}</p>
+        </div>
+        <div class="comments">
+            {% for comm in commented_item.comment_set.all %}
+                <p class="commentContent">{{ comm.content }}</p>
+                <p class="commentCreator"><a class="commentCreator"
+                                             href="{% url 'user-profile' comm.user.username %}">{{ comm.user.username }}</a>
+                </p>
+            {% endfor %}
+        </div>
+        <div class="datePost">{{ item.date_add|date:'d.m.Y H:i' }}</div>
+    </div>
+
+
+    <div class="error">{{ error }}</div>
+    <form id="commentForm" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input id="login-btn" type="submit" VALUE="Dodaj">
+    </form>
+{% endblock %}

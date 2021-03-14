@@ -51,3 +51,6 @@ class AddCommentToPostForm(ModelForm):
     class Meta:
         model = Comment
         exclude = ['photo', 'user', 'date_add']
+
+class MessageForm(forms.Form):
+    message = forms.CharField(label='')

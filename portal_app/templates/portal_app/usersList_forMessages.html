@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Wiadomości{% endblock %}
+{% block content %}
+    <div class="error">{{ error }}</div>
+    <ul>
+        {% for user in object_list %}
+            {% if user != request.user %}
+                <li class="singleUser">
+                    <a href="{% url 'messages-with-user' user.username %}">{{ user.username }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}

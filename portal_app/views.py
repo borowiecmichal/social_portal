@@ -1,3 +1,6 @@
+from itertools import chain
+from operator import attrgetter
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
@@ -10,8 +13,8 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import FormView, CreateView, ListView, DetailView
 
-from portal_app.forms import RegistrationForm, LoginForm, ImageForm, EditUserForm
-from portal_app.models import Photo, Post, AdditionalInfo, Comment, Category, Groupe
+from portal_app.forms import RegistrationForm, LoginForm, ImageForm, EditUserForm, MessageForm
+from portal_app.models import Photo, Post, AdditionalInfo, Comment, Category, Groupe, Messages
 from django.contrib.auth import views as auth_views
 
 
@@ -66,7 +69,7 @@ class LoginView(View):
                 login(request, user)
                 if request.GET.get('next'):
                     return redirect(request.GET.get('next'))
-                return redirect(reverse('user-profile', kwargs={'username':user.username}))
+                return redirect(reverse('user-profile', kwargs={'username': user.username}))
             else:
                 return render(request, 'login.html', {'form': form, 'error': 'Błędne dane logowania'})
         else:
@@ -188,6 +191,29 @@ class CommentToPostAddView(LoginRequiredMixin, CreateView):
         return context
 
 
+class CommentToPhotoAddView(LoginRequiredMixin, CreateView):
+    model = Comment
+    fields = ['content']
+    template_name = 'portal_app/commentPhoto_form.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.photo = get_object_or_404(Photo, pk=self.kwargs.get('photo_id'))
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        photo = Photo.objects.get(pk=self.kwargs.get('photo_id'))
+        return reverse('user-profile', kwargs={'username': photo.user})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(self.kwargs.get('photo_id'))
+        commented_item = get_object_or_404(Photo, pk=self.kwargs.get('photo_id'))
+
+        context["commented_item"] = commented_item
+        return context
+
+
 ###################GRUPY#########################
 
 class GroupView(LoginRequiredMixin, ListView):
@@ -249,3 +275,32 @@ class UsersGroupeView(LoginRequiredMixin, ListView):
         user = User.objects.get(username=self.kwargs.get('username'))
         print(user.groupe_set.all())
         return user.groupe_set.all()
+
+
+class MessagesView(LoginRequiredMixin, ListView):
+    model = User
+    paginate_by = 20
+    template_name = 'portal_app/usersList_forMessages.html'
+
+
+class MessagesWithUser(LoginRequiredMixin, View):
+    def get(self, request, with_username):
+        form = MessageForm()
+        with_user = User.objects.get(username=with_username)
+        messages_received = Messages.objects.filter(from_user=with_user, to_user=request.user)
+        messages_send = Messages.objects.filter(to_user=with_user, from_user=request.user)
+        chained = sorted(list(chain(messages_received, messages_send)), key=attrgetter('date'))
+        return render(request, 'conversation_template.html', {
+            'messages': chained,
+            'with_user': with_user,
+            'form': form,
+        })
+
+    def post(self, request, with_username):
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.cleaned_data['message']
+            from_user = request.user
+            to_user = User.objects.get(username=with_username)
+            Messages.objects.create(content=message, from_user=from_user, to_user=to_user)
+            return redirect(reverse('messages-with-user', kwargs={'with_username':to_user.username}))

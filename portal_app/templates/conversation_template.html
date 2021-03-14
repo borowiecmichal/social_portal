@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Rozmowa z {{ with_user.username }}{% endblock %}
+{% block content %}
+    <div class="error">{{ error }}</div>
+    <div class="conversation">
+        {% for message in messages %}
+            <div class="singleMessage">
+                {% if message.from_user == request.user %}
+                    <div class="myMessageContent">
+                        <span class="messageText">{{ message.content }}</span>
+                        <span>{{ message.date|date:'d.m.Y H:i' }}</span>
+                    </div>
+                {% else %}
+                    <div class="toMeMessageContent">
+                        <span class="messageText">{{ message.content }}</span>
+                        <span>{{ message.date|date:'d.m.Y H:i' }}</span>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="Submit" VALUE="Wyślij">
+    </form>
+{% endblock %}

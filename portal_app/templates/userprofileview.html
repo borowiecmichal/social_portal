@@ -53,8 +53,16 @@
                     <img src="{{ item.photo.url }}">
                     <p class="photoDescription">{{ item.description }}</p>
                 </div>
+                <div class="comments">
+                    {% for comm in item.comment_set.all %}
+                        <p class="commentContent">{{ comm.content }}</p>
+                        <p class="commentCreator"><a class="commentCreator"
+                                                     href="{% url 'user-profile' comm.user.username %}">{{ comm.user.username }}</a>
+                        </p>
+                    {% endfor %}
+                    <button onclick="location.href='{% url 'comment-photo' item.id %}'">Dodaj komentarz</button>
+                </div>
                 <div class="datePost">{{ item.date_add|date:'d.m.Y H:i' }}</div>
-
             </div>
         {% endfor %}
 
