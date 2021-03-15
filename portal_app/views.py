@@ -94,6 +94,14 @@ class UserProfileView(LoginRequiredMixin, View):
         }
         return render(request, 'userprofileview.html', context)
 
+class LikePostView(View):
+    def post(self,request, post_id):
+        post = Post.objects.get(pk=post_id)
+        post.likes += 1
+        post.save()
+        user = post.user
+        return redirect(reverse('user-profile', kwargs={'username':user.username}))
+
 
 # class PhotoCreateView(LoginRequiredMixin, CreateView):
 #     model = Photo

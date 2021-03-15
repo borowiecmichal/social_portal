@@ -18,7 +18,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns, static
 from django.urls import path
 from portal_app.views import LandingView, RegistrationView, LoginView, LogoutView, UserProfileView, PhotoCreateView, \
     PostCreateView, ProfileEditView, CommentToPostAddView, GroupView, GroupDetail, GroupPostCreateView, GroupAppendView, \
-    GroupCreateView, UsersGroupeView, CommentToPhotoAddView, MessagesView, MessagesWithUser
+    GroupCreateView, UsersGroupeView, CommentToPhotoAddView, MessagesView, MessagesWithUser, LikePostView
 from social_portal import settings
 from django.contrib.auth import views as auth_views
 
@@ -31,6 +31,7 @@ urlpatterns = [
     path('profile/<str:username>', UserProfileView.as_view(), name='user-profile'),
     path('add_photo/', PhotoCreateView.as_view(), name='add-photo'),
     path('add_post/', PostCreateView.as_view(), name='add-post'),
+    path('like-post/<int:post_id>', LikePostView.as_view(), name='like-post'),
     path('profile/<str:username>/edit', ProfileEditView.as_view(), name='edit-user'),
     path(
         'change-password/',

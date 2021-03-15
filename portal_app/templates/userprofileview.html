@@ -43,7 +43,15 @@
                 </div>
                 <div class="datePost">{{ item.date_add|date:'d.m.Y H:i' }}</div>
             </div>
-
+            <div class="likes">
+                <form method="post" action="{% url 'like-post' item.id %}">
+                    {% csrf_token %}
+                    <td>
+                        <input name="submit" type="submit" value="👍">
+                    </td>
+                </form>
+                <span>{{ item.likes }}</span>
+            </div>
         {% endfor %}
 
         <button id='hidePhotosBtn' class="hide-btn">Ukryj zdjęcia</button>
@@ -64,6 +72,7 @@
                 </div>
                 <div class="datePost">{{ item.date_add|date:'d.m.Y H:i' }}</div>
             </div>
+
         {% endfor %}
 
     </div>

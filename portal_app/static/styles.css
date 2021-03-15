@@ -121,6 +121,14 @@ body::after {
     border-radius: 10px;
     padding: 3px;
 }
+.likes{
+    margin-left: 20px;
+    display: flex;
+  }
+
+.likes span{
+    padding: 5px
+}
 
 .singlePost .postContent {
     margin: 20px;
