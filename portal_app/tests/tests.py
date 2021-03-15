@@ -159,8 +159,19 @@ def test_users_group_view(client, exmp_user, groupe):
 
 
 @pytest.mark.django_db
-def test_messages_view(client, exmp_user, exmp_user2):
+def test_messageswituser_view(client, exmp_user, exmp_user2):
     client.login(username='aagngcv.jjj', password='Portalik123')
-    resp = client.get(f'/messages/')
+    resp = client.get(f'/messages/{exmp_user2.username}')
     assert resp.status_code == 200
-    # assert len(resp.context['object_list']) == 2
+
+    resp = client.post(f'/messages/{exmp_user2.username}',{'message':'wiadomosc1'})
+    assert resp.status_code==302
+
+    resp = client.get(f'/messages/{exmp_user2.username}')
+    assert resp.status_code == 200
+    assert len(resp.context['messages']) == 1
+
+@pytest.mark.django_db
+def test_messages_view(client, exmp_user, exmp_user2):
+    resp = client.get('/messages/')
+    assert resp.status_code==302
