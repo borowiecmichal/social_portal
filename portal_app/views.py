@@ -159,12 +159,10 @@ class ProfileEditView(View):
                 user.last_name = form.cleaned_data['last_name']
                 user.email = form.cleaned_data['email']
                 user.additionalinfo.motorcycle = form.cleaned_data['motorcycle']
-                print(form.cleaned_data['motorcycle'])
                 user.additionalinfo.date_of_birth = form.cleaned_data['date_of_birth']
                 user.additionalinfo.city = form.cleaned_data['city']
                 user.additionalinfo.save()
                 user.save()
-                print(user.additionalinfo.motorcycle)
             except IntegrityError:
                 return render(request, 'editProfile.html', {'form': form, 'error': 'Podany login jest zajęty'})
         return redirect(reverse('user-profile', kwargs={'username': user.username}))
