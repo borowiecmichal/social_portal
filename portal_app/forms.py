@@ -8,7 +8,7 @@ from django import forms
 from portal_app.models import Photo, Comment
 
 
-class RegistrationForm(forms.Form):
+class RegistrationForm(forms.Form): #dodać walidatory albo UserRegistrationForm/SignUpYUser
     username = forms.CharField(label='Nazwa użytkownika', max_length=64)
     first_name = forms.CharField(label='Imię')
     last_name = forms.CharField(label='Nazwisko')

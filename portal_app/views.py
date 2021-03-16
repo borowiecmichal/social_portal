@@ -282,7 +282,7 @@ class UsersGroupeView(LoginRequiredMixin, ListView):
         print(user.groupe_set.all())
         return user.groupe_set.all()
 
-
+########################### WIADOMOŚCI ############
 class MessagesView(LoginRequiredMixin, ListView):
     model = User
     paginate_by = 20

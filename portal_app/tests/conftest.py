@@ -62,6 +62,7 @@ def posts_3(exmp_user):
 #     photo.save()
 #     return photo
 
+
 @pytest.fixture()
 def category(exmp_user):
     cat = Category.objects.create(name='przykladowa kategoria')

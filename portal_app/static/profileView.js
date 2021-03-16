@@ -27,7 +27,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             hidePhotosBtn.innerText = 'Ukryj zdjęcia'
     })
 
-    let photos = document.querySelectorAll("img");
+    let photos = document.querySelectorAll("img"); //hide and show button
     photos.forEach(item=>{
         console.log(item);
         item.addEventListener('mousedown', e=>{

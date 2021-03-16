@@ -53,6 +53,8 @@ urlpatterns = [
     # messages
     path('messages/', MessagesView.as_view(), name='messages'),
     path('messages/<str:with_username>', MessagesWithUser.as_view(), name='messages-with-user'),
+
+    path('api/groups/')
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

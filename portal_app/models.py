@@ -67,6 +67,8 @@ class Groupe(models.Model):
         return path
 
     def save(self, *args, **kwargs):
+        # slug = slugify(self.name)
+        # Groupe.objects.get(slug=slug)
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
