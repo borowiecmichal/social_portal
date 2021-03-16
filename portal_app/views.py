@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
-from django.views.generic import FormView, CreateView, ListView, DetailView
+from django.views.generic import FormView, CreateView, ListView, DetailView, DeleteView
 
 from portal_app.forms import RegistrationForm, LoginForm, ImageForm, EditUserForm, MessageForm
 from portal_app.models import Photo, Post, AdditionalInfo, Comment, Category, Groupe, Messages
@@ -273,6 +273,13 @@ class GroupCreateView(LoginRequiredMixin, CreateView):
     model = Groupe
     fields = ['name', 'category']
 
+    def form_valid(self, form):
+        instance = form.save()
+        instance.moderators.set([self.request.user])
+        instance.users.set([self.request.user])
+        instance.save()
+        return super().form_valid(form)
+
     def get_success_url(self):
         return reverse('groups')
 
@@ -286,6 +293,10 @@ class UsersGroupeView(LoginRequiredMixin, ListView):
         user = User.objects.get(username=self.kwargs.get('username'))
         print(user.groupe_set.all())
         return user.groupe_set.all()
+
+class GroupeDelete(DeleteView):
+    model = Groupe
+    success_url = reverse('groups')
 
 ########################### WIADOMOŚCI ############
 class MessagesView(LoginRequiredMixin, ListView):

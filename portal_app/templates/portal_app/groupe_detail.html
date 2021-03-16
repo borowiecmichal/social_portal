@@ -3,6 +3,18 @@
 {% block title %}{{ object.name }}{% endblock %}
 {% block content %}
     <div class="error">{{ error }}</div>
+    {% if user in object.moderators.all %}
+        <div class="profileActions">
+        <span class="editContentSpan">
+            <button onclick="location.href='/profile/{{ user.username }}/edit'">Usuń grupe</button>
+        </span>
+
+{#            <span class="addContentSpan">#}
+{#            <button onclick="location.href='/add_photo'">Dodaj zdjęcie</button>#}
+{#            <button onclick="location.href='/add_post'">Dodaj post</button>#}
+{#        </span>#}
+        </div>
+    {% endif %}
     <h2 class="pageTitle">Grupa {{ object.name }}</h2>
     <p>Liczba członków: {{ object.users.count }}</p>
     <div class="groupAction">

@@ -55,6 +55,7 @@ class Groupe(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)
     slug = models.SlugField(max_length=128, null=True, default=None, unique=True)
+    moderators = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='moderating_groups')
 
     def get_categories_list(self):
         cat = self.category
@@ -67,9 +68,18 @@ class Groupe(models.Model):
         return path
 
     def save(self, *args, **kwargs):
-        # slug = slugify(self.name)
-        # Groupe.objects.get(slug=slug)
-        self.slug = slugify(self.name)
+        if self.slug is None:
+            i = 1
+            slug_start = slugify(self.name)
+            slug = slug_start
+            while True:
+                try:
+                    Groupe.objects.get(slug=slug)
+                except:
+                    break
+                i += 1
+                slug = slug_start + f'_{i}'
+            self.slug = slug
         super().save(*args, **kwargs)
 
     class Meta:
