@@ -57,8 +57,10 @@ class LandingView(View):
 class UserRegistrationView(FormView):
     form_class = RegistrationForm
     template_name = 'registration.html'
+
     def get_success_url(self):
         return reverse('home')
+
 
 class LoginView(View):
     def get(self, request):
@@ -99,13 +101,14 @@ class UserProfileView(LoginRequiredMixin, View):
         }
         return render(request, 'userprofileview.html', context)
 
+
 class LikePostView(View):
-    def post(self,request, post_id):
+    def post(self, request, post_id):
         post = Post.objects.get(pk=post_id)
         post.likes += 1
         post.save()
         user = post.user
-        return redirect(reverse('user-profile', kwargs={'username':user.username}))
+        return redirect(reverse('user-profile', kwargs={'username': user.username}))
 
 
 # class PhotoCreateView(LoginRequiredMixin, CreateView):
@@ -294,9 +297,13 @@ class UsersGroupeView(LoginRequiredMixin, ListView):
         print(user.groupe_set.all())
         return user.groupe_set.all()
 
+
 class GroupeDelete(DeleteView):
     model = Groupe
-    success_url = reverse('groups')
+
+    def get_success_url(self):
+        return reverse('groups')
+
 
 ########################### WIADOMOŚCI ############
 class MessagesView(LoginRequiredMixin, ListView):

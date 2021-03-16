@@ -6,7 +6,7 @@
     {% if user in object.moderators.all %}
         <div class="profileActions">
         <span class="editContentSpan">
-            <button onclick="location.href='/profile/{{ user.username }}/edit'">Usuń grupe</button>
+            <button onclick="location.href='{% url 'group-delete' object.slug %}'">Usuń grupe</button>
         </span>
 
 {#            <span class="addContentSpan">#}

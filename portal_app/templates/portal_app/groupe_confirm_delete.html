@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Usuwanie grupy {{ object.name }}{% endblock %}
+{% block content %}
+    <div class="error">{{ error }}</div>
+    <form method="post">{% csrf_token %}
+        <p>Czy napewno chcesz usunąć grupę "{{ object.name }}"?</p>
+        <input class="inputAsButton" type="submit" value="Usuń">
+    </form>
+    <button onclick="location.href='{% url 'group-details' object.slug %}'">Nie</button>
+
+{% endblock %}

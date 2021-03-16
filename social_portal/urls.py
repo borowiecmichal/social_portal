@@ -19,7 +19,7 @@ from django.urls import path
 from portal_app.views import LandingView, LoginView, LogoutView, UserProfileView, PhotoCreateView, \
     PostCreateView, ProfileEditView, CommentToPostAddView, GroupView, GroupDetail, GroupPostCreateView, GroupAppendView, \
     GroupCreateView, UsersGroupeView, CommentToPhotoAddView, MessagesView, MessagesWithUser, LikePostView, \
-    UserRegistrationView
+    UserRegistrationView, GroupeDelete
 from social_portal import settings
 from django.contrib.auth import views as auth_views
 
@@ -51,6 +51,7 @@ urlpatterns = [
     path('group/<slug:slug>/append', GroupAppendView.as_view(), name='group-append'),
     path('create-group/', GroupCreateView.as_view(), name='create-group'),
     path('<str:username>/groups/', UsersGroupeView.as_view(), name='users-groups'),
+    path('groups/delete/<slug:slug>', GroupeDelete.as_view(), name='group-delete'),
     # messages
     path('messages/', MessagesView.as_view(), name='messages'),
     path('messages/<str:with_username>', MessagesWithUser.as_view(), name='messages-with-user'),
