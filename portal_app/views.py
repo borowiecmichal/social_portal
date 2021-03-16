@@ -23,37 +23,42 @@ class LandingView(View):
         return render(request, 'landing_page.html')
 
 
-class RegistrationView(View):
-    def get(self, request):
-        form = RegistrationForm()
-        return render(request, 'registration.html', {'form': form})
+# class UserRegistrationView(View):
+#     def get(self, request):
+#         form = RegistrationForm()
+#         return render(request, 'registration.html', {'form': form})
+#
+#     def post(self, request):
+#         form = RegistrationForm(request.POST)
+#         if form.is_valid():
+#             if form.cleaned_data['password'] == form.cleaned_data['password2']:
+#                 try:
+#                     # validate_password(password=form.cleaned_data['password'])
+#                     u = User.objects.create_user(username=form.cleaned_data['username'],
+#                                                  password=form.cleaned_data['password'],
+#                                                  first_name=form.cleaned_data['first_name'],
+#                                                  last_name=form.cleaned_data['last_name'],
+#                                                  email=form.cleaned_data['email'])
+#                     AdditionalInfo.objects.create(
+#                         user=u,
+#                         motorcycle=form.cleaned_data['motorcycle'],
+#                         date_of_birth=form.cleaned_data['date_of_birth'],
+#                         city=form.cleaned_data['city']
+#                     )
+#
+#                 except IntegrityError:
+#                     return render(request, 'registration.html', {'form': form, 'error': 'Użytkownik już istnieje'})
+#                 except ValidationError as e:
+#                     return render(request, 'registration.html',
+#                                   {'form': form, 'error': f'Hasło nie spełnia wymagań: {e}'})
+#
+#                 return redirect(reverse('home'))
 
-    def post(self, request):
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            if form.cleaned_data['password'] == form.cleaned_data['password2']:
-                try:
-                    validate_password(password=form.cleaned_data['password'])
-                    u = User.objects.create_user(username=form.cleaned_data['username'],
-                                                 password=form.cleaned_data['password'],
-                                                 first_name=form.cleaned_data['first_name'],
-                                                 last_name=form.cleaned_data['last_name'],
-                                                 email=form.cleaned_data['email'])
-                    AdditionalInfo.objects.create(
-                        user=u,
-                        motorcycle=form.cleaned_data['motorcycle'],
-                        date_of_birth=form.cleaned_data['date_of_birth'],
-                        city=form.cleaned_data['city']
-                    )
-
-                except IntegrityError:
-                    return render(request, 'registration.html', {'form': form, 'error': 'Użytkownik już istnieje'})
-                except ValidationError as e:
-                    return render(request, 'registration.html',
-                                  {'form': form, 'error': f'Hasło nie spełnia wymagań: {e}'})
-
-                return redirect(reverse('home'))
-
+class UserRegistrationView(FormView):
+    form_class = RegistrationForm
+    template_name = 'registration.html'
+    def get_success_url(self):
+        return reverse('home')
 
 class LoginView(View):
     def get(self, request):

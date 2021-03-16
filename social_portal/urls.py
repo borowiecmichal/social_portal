@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns, static
 from django.urls import path
-from portal_app.views import LandingView, RegistrationView, LoginView, LogoutView, UserProfileView, PhotoCreateView, \
+from portal_app.views import LandingView, LoginView, LogoutView, UserProfileView, PhotoCreateView, \
     PostCreateView, ProfileEditView, CommentToPostAddView, GroupView, GroupDetail, GroupPostCreateView, GroupAppendView, \
-    GroupCreateView, UsersGroupeView, CommentToPhotoAddView, MessagesView, MessagesWithUser, LikePostView
+    GroupCreateView, UsersGroupeView, CommentToPhotoAddView, MessagesView, MessagesWithUser, LikePostView, \
+    UserRegistrationView
 from social_portal import settings
 from django.contrib.auth import views as auth_views
 
@@ -26,7 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LandingView.as_view(), name='home'),
     path('login/', LoginView.as_view(), name='login'),
-    path('register/', RegistrationView.as_view(), name='register'),
+    path('register/', UserRegistrationView.as_view(), name='register'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('profile/<str:username>', UserProfileView.as_view(), name='user-profile'),
     path('add_photo/', PhotoCreateView.as_view(), name='add-photo'),
@@ -54,7 +55,7 @@ urlpatterns = [
     path('messages/', MessagesView.as_view(), name='messages'),
     path('messages/<str:with_username>', MessagesWithUser.as_view(), name='messages-with-user'),
 
-    path('api/groups/')
+    # path('api/groups/')
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
