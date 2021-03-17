@@ -11,7 +11,15 @@
         {% for group in object_list %}
             <li class="singleGroup">
                 <div class="groupName">
-                    <a href="{% url 'group-details' group.slug %}">{{ group.name }}</a>
+
+                    {% if group in request.user.groups_to_join.all %}
+                        <span>{{ group.name }}</span>
+                        <span>(Oczekujesz na akcpetację)</span>
+                    {% else %}
+                        <a href="{% url 'group-details' group.slug %}">
+                            {{ group.name }}
+                        </a>
+                    {% endif %}
                 </div>
                 <div class="hide">
                     <p class="categoryPath">{{ group.get_categories_list }}</p>

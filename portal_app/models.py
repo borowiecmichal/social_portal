@@ -56,6 +56,7 @@ class Groupe(models.Model):
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)
     slug = models.SlugField(max_length=128, null=True, default=None, unique=True)
     moderators = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='moderating_groups')
+    to_join = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='groups_to_join')
 
     def get_categories_list(self):
         cat = self.category

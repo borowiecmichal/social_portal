@@ -11,10 +11,12 @@
             <li class="singleGroup">
                 <div class="groupName">
                     <a href="{% url 'group-details' group.slug %}">{{ group.name }}</a>
-                    {% if group not in request.user.groupe_set.all %}
-                        <button onclick="location.href='{% url 'group-append' group.slug %}'">Dołącz</button>
-                    {% else %}
+                    {% if group in request.user.groupe_set.all %}
                         <p>Jesteś członkiem tej grupy</p>
+                    {% elif group in request.user.groups_to_join.all %}
+                        <p>Oczekujesz na akceptację dołączenia do grupy przez jej moderatora</p>
+                    {% else %}
+                        <button onclick="location.href='{% url 'group-append' group.slug %}'">Dołącz</button>
                     {% endif %}
                 </div>
                 <div class="hide">

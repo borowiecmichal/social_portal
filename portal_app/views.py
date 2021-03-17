@@ -260,14 +260,14 @@ class GroupPostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('group-details', kwargs={'slug': self.kwargs.get('slug')})
+        return reverse('users-groups', kwargs={'username': self.request.user.username})
 
 
 class GroupAppendView(LoginRequiredMixin, View):
 
     def get(self, request, slug):
         groupe = Groupe.objects.get(slug=slug)
-        groupe.users.add(request.user)
+        groupe.to_join.add(request.user)
         groupe.save()
         return redirect(reverse('group-details', kwargs={'slug': self.kwargs.get('slug')}))
 
@@ -294,8 +294,7 @@ class UsersGroupeView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = User.objects.get(username=self.kwargs.get('username'))
-        print(user.groupe_set.all())
-        return user.groupe_set.all()
+        return user.groupe_set.all() | user.groups_to_join.all()
 
 
 class GroupeDelete(DeleteView):
