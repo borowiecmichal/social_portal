@@ -76,3 +76,20 @@ def groupe(exmp_user, category):
     groupe.save()
     return groupe
 
+@pytest.fixture()
+def groupe_with_mod(exmp_user, exmp_user2, category):
+    groupe = Groupe.objects.create(name='przykladowa grupa', category=category)
+    groupe.users.add(exmp_user)
+    groupe.moderators.add(exmp_user)
+    groupe.to_join.add(exmp_user2)
+    groupe.save()
+    return groupe
+
+@pytest.fixture()
+def groupe_with_mod_and_2users(exmp_user, exmp_user2, category):
+    groupe = Groupe.objects.create(name='przykladowa grupa', category=category)
+    groupe.users.add(exmp_user)
+    groupe.moderators.add(exmp_user)
+    groupe.users.add(exmp_user2)
+    groupe.save()
+    return groupe

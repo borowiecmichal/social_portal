@@ -24,16 +24,16 @@ from social_portal import settings
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),#test done
     path('', LandingView.as_view(), name='home'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('register/', UserRegistrationView.as_view(), name='register'),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path('profile/<str:username>', UserProfileView.as_view(), name='user-profile'),
-    path('add_photo/', PhotoCreateView.as_view(), name='add-photo'),
-    path('add_post/', PostCreateView.as_view(), name='add-post'),
-    path('like-post/<int:post_id>', LikePostView.as_view(), name='like-post'),
-    path('profile/<str:username>/edit', ProfileEditView.as_view(), name='edit-user'),
+    path('login/', LoginView.as_view(), name='login'),#test done
+    path('register/', UserRegistrationView.as_view(), name='register'), #test done
+    path('logout/', LogoutView.as_view(), name='logout'), #test done
+    path('profile/<str:username>', UserProfileView.as_view(), name='user-profile'),#test done
+    path('add_photo/', PhotoCreateView.as_view(), name='add-photo'),#test omitted
+    path('add_post/', PostCreateView.as_view(), name='add-post'), #test done
+    path('like-post/<int:post_id>/', LikePostView.as_view(), name='like-post'), #test done
+    path('profile/<str:username>/edit', ProfileEditView.as_view(), name='edit-user'), #test done
     path(
         'change-password/',
         auth_views.PasswordChangeView.as_view(
@@ -42,26 +42,26 @@ urlpatterns = [
         ),
         name='change_password'
     ),
-    path('comment-post/<int:post_id>', CommentToPostAddView.as_view(), name='comment-post'),
-    path('comment-photo/<int:photo_id>', CommentToPhotoAddView.as_view(), name='comment-photo'),
+    path('comment-post/<int:post_id>', CommentToPostAddView.as_view(), name='comment-post'),#test done
+    path('comment-photo/<int:photo_id>', CommentToPhotoAddView.as_view(), name='comment-photo'),#test omitted
     # groups
-    path('groups/', GroupView.as_view(), name='groups'),
-    path('group/<slug:slug>/', GroupDetail.as_view(), name='group-details'),
-    path('group/<slug:slug>/add_post', GroupPostCreateView.as_view(), name='group-post'),
-    path('group/<slug:slug>/append', GroupAppendView.as_view(), name='group-append'),
-    path('create-group/', GroupCreateView.as_view(), name='create-group'),
-    path('<str:username>/groups/', UsersGroupeView.as_view(), name='users-groups'),
-    path('groups/delete/<slug:slug>/', GroupeDelete.as_view(), name='group-delete'),
+    path('groups/', GroupView.as_view(), name='groups'), #test done
+    path('group/<slug:slug>/', GroupDetail.as_view(), name='group-details'), #test done
+    path('group/<slug:slug>/add_post/', GroupPostCreateView.as_view(), name='group-post'),#test done
+    path('group/<slug:slug>/append', GroupAppendView.as_view(), name='group-append'), #test done
+    path('create-group/', GroupCreateView.as_view(), name='create-group'), #test done
+    path('<str:username>/groups/', UsersGroupeView.as_view(), name='users-groups'), #test done
+    path('groups/delete/<slug:slug>/', GroupeDelete.as_view(), name='group-delete'),#test done
     path('groups/requests-users/<slug:slug>/', GroupeRequests.as_view(), name='group-requests'),
     path('groups/requests-users/<slug:slug>/accept/<str:username>/', GroupeRequestsAcceptUser.as_view(),
-         name='group-user-accept'),
+         name='group-user-accept'),#test done
     path('groups/requests-users/<slug:slug>/reject/<str:username>/', GroupeRequestsRejectUser.as_view(),
-         name='group-user-reject'),
-    path('groups/leave/<slug:slug>/<str:username>/', GroupeLeave.as_view(), name='group-leave'),
+         name='group-user-reject'),#test done
+    path('groups/leave/<slug:slug>/', GroupeLeave.as_view(), name='group-leave'),
 
     # messages
-    path('messages/', MessagesView.as_view(), name='messages'),
-    path('messages/<str:with_username>', MessagesWithUser.as_view(), name='messages-with-user'),
+    path('messages/', MessagesView.as_view(), name='messages'),#test done
+    path('messages/<str:with_username>', MessagesWithUser.as_view(), name='messages-with-user'),#test done
 
     # path('api/groups/')
 ]

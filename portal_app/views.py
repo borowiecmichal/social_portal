@@ -297,7 +297,15 @@ class UsersGroupeView(LoginRequiredMixin, ListView):
         return user.groupe_set.all() | user.groups_to_join.all()
 
 
-class GroupeDelete(DeleteView):
+class GroupeDelete(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
+    def test_func(self):
+        slug = self.kwargs.get("slug")
+        groupe = Groupe.objects.get(slug=slug)
+        user = self.request.user
+        if groupe.moderators.filter(id=user.id).exists():
+            return True
+        else:
+            return False
     model = Groupe
 
     def get_success_url(self):
@@ -368,12 +376,11 @@ class GroupeLeave(LoginRequiredMixin, UserPassesTestMixin, View):
         else:
             return False
 
-    def get(self, request, slug, username):
+    def get(self, request, slug):
         group = Groupe.objects.get(slug=slug)
-        usr = User.objects.get(username=username)
-        group.users.remove(usr)
-        if group.moderators.filter(id=usr.id).exists():
-            group.moderators.remove(usr)
+        group.users.remove(request.user)
+        if group.moderators.filter(id=request.user.id).exists():
+            group.moderators.remove(request.user)
         return redirect(reverse('users-groups', kwargs={'username': request.user.username}))
 
 

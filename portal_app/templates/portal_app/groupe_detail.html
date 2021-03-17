@@ -20,7 +20,7 @@
             {#        </span>#}
 
     {% endif %}
-    <button onclick="location.href='{% url 'group-leave' object.slug request.user.username %}'">Opuść grupę</button>
+    <button onclick="location.href='{% url 'group-leave' object.slug %}'">Opuść grupę</button>
     </div>
     <h2 class="pageTitle">Grupa {{ object.name }}</h2>
     <p>Liczba członków: {{ object.users.count }}</p>
