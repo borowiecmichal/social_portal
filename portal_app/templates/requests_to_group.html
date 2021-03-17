@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ object.name }}{% endblock %}
+{% block content %}
+    <div class="error">{{ error }}</div>
+
+    <h2 class="pageTitle">Grupa {{ group.name }}</h2>
+    <p>Liczba członków: {{ group.users.count }}</p>
+    <button onclick="location.href='{% url 'group-details' group.slug %}'">Powrót</button>
+    <ul class="user_group_list">
+        {% for req_user in requests_list %}
+            <li class="user_accept_item">
+                <a href="{% url 'user-profile' req_user.username %}">{{ req_user }}</a>
+                <button onclick="location.href='{% url 'group-user-accept' group.slug req_user.username %}'">Zaakceptuj</button>
+                <button onclick="location.href='{% url 'group-user-reject' group.slug req_user.username %}'">Odrzuć</button>
+
+            </li>
+            {% empty %}
+            <h3>Brak próśb o dołączenie</h3>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

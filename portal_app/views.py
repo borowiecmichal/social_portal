@@ -269,7 +269,7 @@ class GroupAppendView(LoginRequiredMixin, View):
         groupe = Groupe.objects.get(slug=slug)
         groupe.to_join.add(request.user)
         groupe.save()
-        return redirect(reverse('group-details', kwargs={'slug': self.kwargs.get('slug')}))
+        return redirect(reverse('groups'))
 
 
 class GroupCreateView(LoginRequiredMixin, CreateView):
@@ -302,6 +302,58 @@ class GroupeDelete(DeleteView):
 
     def get_success_url(self):
         return reverse('groups')
+
+
+class GroupeRequests(UserPassesTestMixin, LoginRequiredMixin, View):
+    def test_func(self):
+        slug = self.kwargs.get("slug")
+        groupe = Groupe.objects.get(slug=slug)
+        user = self.request.user
+        if groupe.moderators.filter(id=user.id).exists():
+            return True
+        else:
+            return False
+    def get(self, request, slug):
+        group = Groupe.objects.get(slug=slug)
+        requests_list = group.to_join.all()
+        return render(request, 'requests_to_group.html', {
+            'requests_list': requests_list,
+            'group': group
+        })
+
+
+class GroupeRequestsAcceptUser(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        slug = self.kwargs.get("slug")
+        groupe = Groupe.objects.get(slug=slug)
+        user = self.request.user
+        if groupe.moderators.filter(id=user.id).exists():
+            return True
+        else:
+            return False
+    def get(self, request, slug, username):
+        group = Groupe.objects.get(slug=slug)
+        usr = User.objects.get(username=username)
+        group.to_join.remove(usr)
+        group.users.add(usr)
+        return redirect(reverse('group-requests', kwargs={'slug': group.slug}))
+
+
+class GroupeRequestsRejectUser(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        slug = self.kwargs.get("slug")
+        groupe = Groupe.objects.get(slug=slug)
+        user = self.request.user
+        if groupe.moderators.filter(id=user.id).exists():
+            return True
+        else:
+            return False
+
+    def get(self, request, slug, username):
+        group = Groupe.objects.get(slug=slug)
+        usr = User.objects.get(username=username)
+        group.to_join.remove(usr)
+        return redirect(reverse('group-requests', kwargs={'slug': group.slug}))
 
 
 ########################### WIADOMOŚCI ############
