@@ -19,7 +19,7 @@ from django.urls import path
 from portal_app.views import LandingView, LoginView, LogoutView, UserProfileView, PhotoCreateView, \
     PostCreateView, ProfileEditView, CommentToPostAddView, GroupView, GroupDetail, GroupPostCreateView, GroupAppendView, \
     GroupCreateView, UsersGroupeView, CommentToPhotoAddView, MessagesView, MessagesWithUser, LikePostView, \
-    UserRegistrationView, GroupeDelete, GroupeRequests, GroupeRequestsAcceptUser, GroupeRequestsRejectUser
+    UserRegistrationView, GroupeDelete, GroupeRequests, GroupeRequestsAcceptUser, GroupeRequestsRejectUser, GroupeLeave
 from social_portal import settings
 from django.contrib.auth import views as auth_views
 
@@ -53,8 +53,11 @@ urlpatterns = [
     path('<str:username>/groups/', UsersGroupeView.as_view(), name='users-groups'),
     path('groups/delete/<slug:slug>/', GroupeDelete.as_view(), name='group-delete'),
     path('groups/requests-users/<slug:slug>/', GroupeRequests.as_view(), name='group-requests'),
-    path('groups/requests-users/<slug:slug>/accept/<str:username>/', GroupeRequestsAcceptUser.as_view(), name='group-user-accept'),
-    path('groups/requests-users/<slug:slug>/reject/<str:username>/', GroupeRequestsRejectUser.as_view(), name='group-user-reject'),
+    path('groups/requests-users/<slug:slug>/accept/<str:username>/', GroupeRequestsAcceptUser.as_view(),
+         name='group-user-accept'),
+    path('groups/requests-users/<slug:slug>/reject/<str:username>/', GroupeRequestsRejectUser.as_view(),
+         name='group-user-reject'),
+    path('groups/leave/<slug:slug>/<str:username>/', GroupeLeave.as_view(), name='group-leave'),
 
     # messages
     path('messages/', MessagesView.as_view(), name='messages'),

@@ -313,6 +313,7 @@ class GroupeRequests(UserPassesTestMixin, LoginRequiredMixin, View):
             return True
         else:
             return False
+
     def get(self, request, slug):
         group = Groupe.objects.get(slug=slug)
         requests_list = group.to_join.all()
@@ -331,6 +332,7 @@ class GroupeRequestsAcceptUser(LoginRequiredMixin, UserPassesTestMixin, View):
             return True
         else:
             return False
+
     def get(self, request, slug, username):
         group = Groupe.objects.get(slug=slug)
         usr = User.objects.get(username=username)
@@ -354,6 +356,23 @@ class GroupeRequestsRejectUser(LoginRequiredMixin, UserPassesTestMixin, View):
         usr = User.objects.get(username=username)
         group.to_join.remove(usr)
         return redirect(reverse('group-requests', kwargs={'slug': group.slug}))
+
+
+class GroupeLeave(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        slug = self.kwargs.get("slug")
+        groupe = Groupe.objects.get(slug=slug)
+        user = self.request.user
+        if groupe.users.filter(id=user.id).exists():
+            return True
+        else:
+            return False
+
+    def get(self, request, slug, username):
+        group = Groupe.objects.get(slug=slug)
+        usr = User.objects.get(username=username)
+        group.users.remove(usr)
+        return redirect(reverse('users-groups', kwargs={'username': request.user.username}))
 
 
 ########################### WIADOMOŚCI ############

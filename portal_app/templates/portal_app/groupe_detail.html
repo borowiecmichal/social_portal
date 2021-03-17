@@ -3,8 +3,9 @@
 {% block title %}{{ object.name }}{% endblock %}
 {% block content %}
     <div class="error">{{ error }}</div>
+    <div class="profileActions">
     {% if user in object.moderators.all %}
-        <div class="profileActions">
+
         <span class="editContentSpan">
             <button onclick="location.href='{% url 'group-delete' object.slug %}'">Usuń grupe</button>
         </span>
@@ -17,8 +18,10 @@
             {#            <button onclick="location.href='/add_photo'">Dodaj zdjęcie</button>#}
             {#            <button onclick="location.href='/add_post'">Dodaj post</button>#}
             {#        </span>#}
-        </div>
+
     {% endif %}
+    <button onclick="location.href='{% url 'group-leave' object.slug request.user.username %}'">Opuść grupę</button>
+    </div>
     <h2 class="pageTitle">Grupa {{ object.name }}</h2>
     <p>Liczba członków: {{ object.users.count }}</p>
     <div class="groupAction">
