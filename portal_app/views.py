@@ -372,6 +372,8 @@ class GroupeLeave(LoginRequiredMixin, UserPassesTestMixin, View):
         group = Groupe.objects.get(slug=slug)
         usr = User.objects.get(username=username)
         group.users.remove(usr)
+        if group.moderators.filter(id=usr.id).exists():
+            group.moderators.remove(usr)
         return redirect(reverse('users-groups', kwargs={'username': request.user.username}))
 
 

@@ -3,6 +3,7 @@
 {% block title %}Rozmowa z {{ with_user.username }}{% endblock %}
 {% block content %}
     <div class="error">{{ error }}</div>
+    <h2>Rozmowa z {{ with_user.username }}</h2>
     <div class="conversation">
         {% for message in messages %}
             <div class="singleMessage">
