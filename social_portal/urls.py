@@ -57,7 +57,7 @@ urlpatterns = [
          name='group-user-accept'),#test done
     path('groups/requests-users/<slug:slug>/reject/<str:username>/', GroupeRequestsRejectUser.as_view(),
          name='group-user-reject'),#test done
-    path('groups/leave/<slug:slug>/', GroupeLeave.as_view(), name='group-leave'),
+    path('groups/leave/<slug:slug>/', GroupeLeave.as_view(), name='group-leave'), #test done
 
     # messages
     path('messages/', MessagesView.as_view(), name='messages'),#test done
