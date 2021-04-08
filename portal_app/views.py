@@ -425,3 +425,11 @@ class MessagesWithUser(LoginRequiredMixin, View):
             to_user = User.objects.get(username=with_username)
             Messages.objects.create(content=message, from_user=from_user, to_user=to_user)
             return redirect(reverse('messages-with-user', kwargs={'with_username': to_user.username}))
+
+########################################################################################################################
+
+#################################################  API  ################################################################
+
+########################################################################################################################
+
+
