@@ -287,10 +287,16 @@ class GroupCreateView(LoginRequiredMixin, CreateView):
         return reverse('groups')
 
 
-class UsersGroupeView(LoginRequiredMixin, ListView):
+class UsersGroupeView(UserPassesTestMixin, LoginRequiredMixin, ListView):
     model = Groupe
     paginate_by = 20
     template_name = 'portal_app/usersgroups_list.html'
+
+    def test_func(self):
+        if self.request.user.username == self.kwargs.get("username"):
+            return True
+        else:
+            return False
 
     def get_queryset(self):
         user = User.objects.get(username=self.kwargs.get('username'))
