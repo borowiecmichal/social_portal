@@ -5,7 +5,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     let hidePhotosBtn = document.querySelector("#hidePhotosBtn");
 
     hidePostBtn.addEventListener('click', evt => {
-        let toHide = document.querySelectorAll(".singlePost");
+        let toHide = document.querySelectorAll(".singlePost, .likes");
+        console.log(toHide);
         toHide.forEach(item => {
             item.classList.toggle('hide');
         })
@@ -17,6 +18,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     hidePhotosBtn.addEventListener('click', evt => {
         let toHide = document.querySelectorAll(".singlePhoto");
+
         toHide.forEach(item => {
             item.classList.toggle('hide');
         })
