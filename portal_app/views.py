@@ -12,10 +12,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
 from django.views.generic import FormView, CreateView, ListView, DetailView, DeleteView
+from rest_framework import viewsets, permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from portal_app.forms import RegistrationForm, LoginForm, ImageForm, EditUserForm, MessageForm
-from portal_app.models import Photo, Post, AdditionalInfo, Comment, Category, Groupe, Messages
+from portal_app.models import Photo, Post, AdditionalInfo, Comment, Category, Groupe, Messages, Like
 from django.contrib.auth import views as auth_views
+
+from portal_app.serializers import LikeSerializer
 
 
 class LandingView(View):
@@ -439,3 +444,15 @@ class MessagesWithUser(LoginRequiredMixin, View):
 ########################################################################################################################
 
 
+class LikeView(APIView):
+    def get(self, request):
+        likes = Like.objects.all()
+        serializer = LikeSerializer(likes, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = LikeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

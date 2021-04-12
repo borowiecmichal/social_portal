@@ -1,7 +1,17 @@
 from rest_framework import serializers
 
+from portal_app.models import Like
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+
+class LikeSerializer(serializers.ModelSerializer):
+    post = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+    )
+
+    user = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+    )
+
     class Meta:
-        model = User
-        fields = ['url', 'username', 'email', 'groups']
+        model = Like
+        fields = '__all__'
