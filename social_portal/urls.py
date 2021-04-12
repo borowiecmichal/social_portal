@@ -27,7 +27,9 @@ from portal_app.views import LandingView, LoginView, LogoutView, UserProfileView
 from social_portal import settings
 from django.contrib.auth import views as auth_views
 
-
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),  # test done
@@ -70,6 +72,8 @@ urlpatterns = [
     path('messages/<str:with_username>', MessagesWithUser.as_view(), name='messages-with-user'),  # test done
 
     # API
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('like/', LikeView.as_view(), name='like'),
 
 ]

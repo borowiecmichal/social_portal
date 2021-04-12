@@ -3,7 +3,7 @@ from operator import attrgetter
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
@@ -20,7 +20,7 @@ from portal_app.forms import RegistrationForm, LoginForm, ImageForm, EditUserFor
 from portal_app.models import Photo, Post, AdditionalInfo, Comment, Category, Groupe, Messages, Like
 from django.contrib.auth import views as auth_views
 
-from portal_app.serializers import LikeSerializer
+from portal_app.serializers import LikeSerializer, UserSerializer, GroupSerializer
 
 
 class LandingView(View):
@@ -317,6 +317,7 @@ class GroupeDelete(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
             return True
         else:
             return False
+
     model = Groupe
 
     def get_success_url(self):
@@ -437,11 +438,23 @@ class MessagesWithUser(LoginRequiredMixin, View):
             Messages.objects.create(content=message, from_user=from_user, to_user=to_user)
             return redirect(reverse('messages-with-user', kwargs={'with_username': to_user.username}))
 
+
 ########################################################################################################################
 
 #################################################  API  ################################################################
 
 ########################################################################################################################
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class LikeView(APIView):
