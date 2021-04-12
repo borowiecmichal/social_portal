@@ -27,6 +27,11 @@ class Post(models.Model):
         ordering = ['-date_add']
 
 
+class Like(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+
 class Photo(models.Model):
     photo = models.ImageField(blank=True, verbose_name='Zdjęcie')
     description = models.CharField(max_length=255, null=True, default=None, verbose_name='Opis')
