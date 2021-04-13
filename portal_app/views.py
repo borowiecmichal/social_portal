@@ -20,7 +20,8 @@ from portal_app.forms import RegistrationForm, LoginForm, ImageForm, EditUserFor
 from portal_app.models import Photo, Post, AdditionalInfo, Comment, Category, Groupe, Messages, Like
 from django.contrib.auth import views as auth_views
 
-from portal_app.serializers import LikeSerializer, UserSerializer, GroupSerializer
+from portal_app.serializers import LikeSerializer, UserSerializer, GroupSerializer, PostSerializer, GroupeSerializer, \
+    CategorySerializer
 
 
 class LandingView(View):
@@ -454,6 +455,24 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class GroupeViewSet(viewsets.ModelViewSet):
+    queryset = Groupe.objects.all()
+    serializer_class = GroupeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
 
 

@@ -30,6 +30,9 @@ from django.contrib.auth import views as auth_views
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
+router.register(r'posts', views.PostViewSet)
+router.register(r'groupe', views.GroupeViewSet)
+router.register(r'categories', views.CategoryViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),  # test done

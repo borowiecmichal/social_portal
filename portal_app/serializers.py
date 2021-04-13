@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
-from portal_app.models import Like, Post
+from portal_app.models import Like, Post, Groupe, Category
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -15,6 +15,23 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         model = Group
         fields = ['url', 'name']
 
+
+class PostSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Post
+        fields = '__all__'
+
+
+class GroupeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Groupe
+        fields = '__all__'
+
+
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
 
 class LikeSerializer(serializers.ModelSerializer):
     post = serializers.PrimaryKeyRelatedField(queryset=Post.objects.all())
