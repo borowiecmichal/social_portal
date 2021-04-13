@@ -21,7 +21,7 @@ from portal_app.models import Photo, Post, AdditionalInfo, Comment, Category, Gr
 from django.contrib.auth import views as auth_views
 
 from portal_app.serializers import LikeSerializer, UserSerializer, GroupSerializer, PostSerializer, GroupeSerializer, \
-    CategorySerializer
+    CategorySerializer, AdditionalInfoSerializer
 
 
 class LandingView(View):
@@ -474,6 +474,13 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class AdditionalInfoSerializer(viewsets.ModelViewSet):
+    queryset = AdditionalInfo.objects.all()
+    serializer_class = AdditionalInfoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
 
 
 class LikeView(APIView):

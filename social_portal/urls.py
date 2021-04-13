@@ -33,6 +33,7 @@ router.register(r'groups', views.GroupViewSet)
 router.register(r'posts', views.PostViewSet)
 router.register(r'groupe', views.GroupeViewSet)
 router.register(r'categories', views.CategoryViewSet)
+router.register(r'add_info', views.CategoryViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),  # test done
